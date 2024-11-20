@@ -1,5 +1,5 @@
 ---
-name: "\U0001F951 Onboarding new users!" 
+name: "\U0001F464 Onboarding new users!"
 about: Suggested steps to onbard new users!
 title: ''
 labels: 'onboarding'
