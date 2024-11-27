@@ -1,57 +1,37 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[76]:
 
+import itertools
+import os
+import re
+import xml.etree.ElementTree as ET
+from collections import Counter, defaultdict
 
-#pip install bs4
-#pip intsall tqdm
-#pip install nltk
-#pip install skimage
+import cv2
+import matplotlib.pyplot as plt
 import nltk
-from nltk.tokenize import word_tokenize
+import numpy as np
+# extract the raw data
+import pandas as pd
+# import seaborn as sns
+from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from PIL import Image
+# from tensorflow.keras.applications import densenet
+# from tensorflow.keras.applications.densenet import preprocess_input
+# import tensorflow as tf
+
+from tqdm import tqdm
+from wordcloud import WordCloud
+
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
 
-# In[77]:
-
-
-import tensorflow as tf
-from tensorflow.keras.applications.densenet import preprocess_input
-from tensorflow.keras.applications import densenet
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-from tqdm import tqdm
-import xml.etree.ElementTree as ET
-import os
-import cv2
-from wordcloud import WordCloud
-import re
-# extract the raw data
-import pandas as pd
-from tqdm import tqdm
-import os
-import xml.etree.ElementTree as ET
-from PIL import Image
-from bs4 import BeautifulSoup
-from collections import defaultdict
-import itertools
-from collections import Counter
-
-
-# In[78]:
-
-
 # from google.colab import drive
 # drive.mount('/content/drive')
-
-
-# In[79]:
 
 
 ###########################################
@@ -70,17 +50,12 @@ directory = FULL_DATASET_PATH + 'ecgen-radiology'
 
 
 
-# In[80]:
-
-
 n=0
 for filename in tqdm(os.listdir(directory)):
     if filename.endswith(".png"):
         n+=1
 print(n)
 
-
-# In[81]:
 
 
 #select raw text in report
@@ -109,27 +84,17 @@ for filename in tqdm(os.listdir(directory)):
             img_finding.append(finding)
 
 
-# In[82]:
-
 
 dataset = pd.DataFrame()
 dataset['Image_path'] = img
 dataset['Finding'] = img_finding
 
 
-# In[83]:
-
-
 dataset.head(5)
 
 
-# In[84]:
-
 
 print('Dataset Shape:', dataset.shape)
-
-
-# In[85]:
 
 
 def absolute_path(x):
@@ -141,13 +106,8 @@ dataset['Image_path'] = dataset['Image_path'].apply(lambda x : absolute_path(x))
 
 
 
-# In[86]:
-
-
 dataset.head(5)
 
-
-# In[89]:
 
 
 def image_desc_plotter(data, n, rep):
@@ -179,13 +139,9 @@ def image_desc_plotter(data, n, rep):
         print("Enter a valid String")
 
 
-# In[90]:
-
 
 image_desc_plotter(dataset, 5, 'finding')
 
-
-# In[91]:
 
 
 # loading the heights and widths of each image
@@ -196,8 +152,6 @@ for i in tqdm(np.unique(dataset['Image_path'].values)):
     h.append(img.shape[0])
     w.append(img.shape[1])
 
-
-# In[96]:
 
 
 plt.figure(figsize=(10,4))
@@ -215,33 +169,25 @@ plt.xlabel('--Images--')
 sns.scatterplot(w)
 
 
-# In[97]:
 
 
 print('Number of Images:', dataset['Image_path'].nunique())
 
-
-# In[98]:
 
 
 # number of missing values
 dataset.isnull().sum()
 
 
-# In[99]:
 
 
 dataset = dataset.dropna(axis=0)
 dataset.isnull().sum()
 
 
-# In[100]:
-
 
 print('New Shape of the Data:', dataset.shape)
 
-
-# In[101]:
 
 
 plt.figure(figsize=(14,7))
@@ -259,15 +205,12 @@ plt.title(dataset['Image_path'].values[8])
 plt.imshow(img3)
 
 
-# In[102]:
 
 
 dataset['Finding'].values[6], dataset['Finding'].values[7], dataset['Finding'].values[8]
 
 
 # The dataset consists of multiple chest shots of the same person. The images of a person has the same file name except the last 4 digits. Therefore that can be taken as the person ID.
-
-# In[103]:
 
 
 # This creates 2 dictionaries with keys as the person id and the number of images and findings for that person.
@@ -285,20 +228,16 @@ for img, fin in dataset.values:
         findings[a] = fin
 
 
-# In[105]:
-
 
 # images['/content/drive/MyDrive/image/NLMCXR_png/CXR1808_IM-0524'], findings['/content/drive/MyDrive/image/NLMCXR_png/CXR1808_IM-0524']
 images[directory+'/CXR1808_IM-0524'], findings[directory+'/CXR1808_IM-0524']
 
 
-# In[106]:
 
 
 print('Total Number of Unique_IDs :', len(images.keys()))
 
 
-# In[107]:
 
 
 plt.figure(figsize=(17,5))
@@ -306,8 +245,6 @@ plt.bar(range(len(images.keys())), images.values())
 plt.ylabel('Total Images per individual')
 plt.xlabel('Number of Individuals in the Data')
 
-
-# In[108]:
 
 
 one = 0
@@ -327,19 +264,12 @@ for v in images.values():
         print('Error')
 
 
-# In[109]:
-
-
 one, two, three, four
 
-
-# In[110]:
 
 
 len(images)
 
-
-# In[111]:
 
 
 def train_test_split(data):
@@ -350,13 +280,11 @@ def train_test_split(data):
     return persons_train, persons_cv, persons_test
 
 
-# In[112]:
 
 
 images_train, images_cv, images_test = train_test_split(images)
 
 
-# In[113]:
 
 
 def combining_images(image_set):
@@ -372,21 +300,16 @@ def combining_images(image_set):
     return image_per_person
 
 
-# In[114]:
-
 
 img_per_person_train = combining_images(images_train)
 img_per_person_cv = combining_images(images_cv)
 img_per_person_test = combining_images(images_test)
 
 
-# In[115]:
-
 
 len(img_per_person_train), len(images_train)
 
 
-# In[116]:
 
 
 def load_image(file):
@@ -395,8 +318,6 @@ def load_image(file):
     img = tf.image.convert_image_dtype(img, tf.float32)
     return img
 
-
-# In[119]:
 
 
 plt.figure(figsize=(9,9))
@@ -426,7 +347,6 @@ plt.imshow(load_image(directory+'/CXR1102_IM-0069-4004.png'))
 plt.title(directory+'/CXR1102_IM-0069-4004.png')
 
 
-# In[120]:
 
 
 def create_data(image_per_person):
@@ -457,7 +377,6 @@ def create_data(image_per_person):
     return data
 
 
-# In[121]:
 
 
 train = create_data(img_per_person_train)
@@ -465,15 +384,11 @@ test = create_data(img_per_person_test)
 cv = create_data(img_per_person_cv)
 
 
-# In[122]:
-
 
 train.head()
 
 
 # ### Text Cleaning
-
-# In[123]:
 
 
 def lowercase(text):
@@ -579,7 +494,6 @@ def rem_apostrophes(text):
     return new_text
 
 
-# In[124]:
 
 
 def text_preprocessing(text):
@@ -597,7 +511,6 @@ def text_preprocessing(text):
     return new_text
 
 
-# In[125]:
 
 
 train['Report'] = text_preprocessing(train['Report'])
@@ -605,20 +518,17 @@ test['Report'] = text_preprocessing(test['Report'])
 cv['Report'] = text_preprocessing(cv['Report'])
 
 
-# In[126]:
 
 
 train.head()
 
 
-# In[127]:
 
 
 l = [len(e.split()) for e in train['Report'].values]  # Number of words in each report
 max(l)
 
 
-# In[128]:
 
 
 l = []
@@ -635,7 +545,6 @@ top_50_words = sorted(words_count)[::-1][:50]
 bottom_50_words = sorted(words_count)[:50]
 
 
-# In[130]:
 
 
 plt.figure(figsize=(15,5))
@@ -647,13 +556,9 @@ plt.xticks(ticks=range(50), labels=[w for c,w in top_50_words], rotation=90)
 plt.show()
 
 
-# In[131]:
-
 
 w = WordCloud(height=1500, width=1500).generate(str(l))
 
-
-# In[133]:
 
 
 plt.figure(figsize=(12,12))
@@ -662,7 +567,6 @@ plt.imshow(w)
 plt.show()
 
 
-# In[134]:
 
 
 def remodelling(x):
@@ -670,7 +574,6 @@ def remodelling(x):
     return 'startseq' + ' ' + x + ' ' + 'endseq'
 
 
-# In[135]:
 
 
 train['Report'] = train['Report'].apply(lambda x : remodelling(x))
@@ -678,11 +581,8 @@ test['Report'] = test['Report'].apply(lambda x : remodelling(x))
 cv['Report'] = cv['Report'].apply(lambda x : remodelling(x))
 
 
-# In[136]:
-
 
 # save the cleaned data(STRUCTURED DATA)
 train.to_csv('Train_Data.csv', index=False)
 test.to_csv('Test_Data.csv', index=False)
 cv.to_csv('CV_Data.csv', index=False)
-

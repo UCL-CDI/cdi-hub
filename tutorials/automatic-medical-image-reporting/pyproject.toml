@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amir"
+dynamic = ["version", "readme"]
+requires-python = ">=3.12"
+keywords = ["AI"]
+authors = [
+  {name = "Miguel Xochicale", email = "m.xochicale@ucl.ac.uk"},
+  {name = "Add co-author", email = "add@email.com"},
+]
+maintainers = [
+  {name = "Add maintener", email = "add@email.com"}
+]
+description = "Package example!"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "loguru",
+    "opencv-python-headless",
+    "nltk",
+    "pandas",
+    "bs4",
+    "wordcloud",
+]
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pylint",
+    "black",
+    "isort",
+    "codespell",
+    "pre-commit"
+]
+learning = [
+    "torch",
+    "torchvision",
+    "einops", #
+]
+
+[tool.setuptools.dynamic]
+#version = {attr = "amir.__version__"} #todo check this version attribute!
+readme = {file = ["README.md"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["amir"]  # package names should match these glob patterns (["*"] by default)
+#exclude = ["amir.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.pytest]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v"
+pythonpath = [
+    "src"
+]

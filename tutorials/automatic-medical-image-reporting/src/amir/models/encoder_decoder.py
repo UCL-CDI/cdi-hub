@@ -13,42 +13,40 @@
 
 
 import nltk
+
 nltk.download('punkt')
 
 
 # In[3]:
 
 
+import datetime
+import pickle
+import random
+import time
+import warnings
+
+import cv2
+import matplotlib.pyplot as plt
+import nltk
 import numpy as np
 import pandas as pd
 import sacremoses
-from transformers import pipeline, set_seed
-from transformers import BioGptTokenizer, BioGptForCausalLM
-import matplotlib.pyplot as plt
 import seaborn as sns
-from tqdm import tqdm
 import tensorflow as tf
-import cv2
-import pickle
-from sklearn.model_selection import train_test_split
-import time
-
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, LSTM, Input, Embedding, Conv2D, Concatenate, Flatten, Add, Dropout, GRU
-from tensorflow.keras.layers import Attention
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.losses import KLDivergence
-
-
-import random
-import datetime
 from nltk.translate.bleu_score import sentence_bleu
-import nltk
-import warnings
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.layers import (GRU, LSTM, Add, Attention, Concatenate,
+                                     Conv2D, Dense, Dropout, Embedding,
+                                     Flatten, Input)
+from tensorflow.keras.losses import KLDivergence
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tqdm import tqdm
+from transformers import BioGptForCausalLM, BioGptTokenizer, pipeline, set_seed
+
 warnings.filterwarnings('ignore')
-import graphviz
-import pydot
 #import torch
 import collections
 import logging
@@ -58,9 +56,11 @@ import re
 import string
 import sys
 import time
-from rouge import Rouge
-from numpy import arange
 
+import graphviz
+import pydot
+from numpy import arange
+from rouge import Rouge
 
 # In[4]:
 
@@ -254,8 +254,8 @@ tokenizer.fit_on_texts(y_train.values)
 
 
 # load the image features generated from DataPreprocessing_and_Image_feature_generating notebook
-# f = open('/content/drive/MyDrive/dissertation/Image_features_attention.pickle','rb') 
-f = open('Image_features_attention.pickle','rb') 
+# f = open('/content/drive/MyDrive/dissertation/Image_features_attention.pickle','rb')
+f = open('Image_features_attention.pickle','rb')
 Xnet_Features = pickle.load(f)
 f.close()
 
@@ -970,18 +970,18 @@ can0, can1, can12, can2, can100, can111, can78, can90, can48, can8, can7
 
 
 # # evaluation score
-# 
+#
 # Surface-form similarity:
 # Bleu score is precision-based. It calculates n-gram overlap between the candidate and the reference.The key idea of BLEU is to compute precision by clipping.
-# 
+#
 # Cider score is an image captioning metric that computes cosine similarity between tf–idf weighted n-grams.
-# 
+#
 # ROUGE score is recall base. It computes n-gram based recall for the candidate sentence with respect to the references.
-# 
+#
 # Semantics-form similarity:
 # Berts score computes the similarity between their tokens' embeddings.
-# 
-# 
+#
+#
 
 # ### BLEU SCORE
 
@@ -1005,6 +1005,8 @@ def rem_fullstops(text):
 
 
 import math
+
+
 def calculate_cider(reference_sentence, candidate_sentence):
     # Preprocess the sentences
     reference_tokens = nltk.word_tokenize(reference_sentence.lower())
@@ -1065,7 +1067,6 @@ def calculate_rouge_l(reference_summary, generated_summary):
 
 
 from torchmetrics.text.bert import BERTScore
-
 
 # In[ ]:
 
@@ -1165,4 +1166,3 @@ print('Bleu3 Score: ', sum(bleu3)/99)
 print('Bleu4 Score: ', sum(bleu4)/99)
 print('cider: ', sum(cider)/99)
 print('rouge_l: ', sum(rouge_l)/99)
-
