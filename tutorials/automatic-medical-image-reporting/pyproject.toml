@@ -26,8 +26,9 @@ dependencies = [
     "opencv-python-headless",
     "nltk",
     "pandas",
-    "bs4",
-    "wordcloud",
+    "PyQt5",# for FigureCanvasAgg interactivity problem
+    #"bs4",
+    #"wordcloud",
 ]
 [project.optional-dependencies]
 test = [
@@ -41,7 +42,8 @@ test = [
 learning = [
     "torch",
     "torchvision",
-    "einops", #
+    "scikit-learn",
+    #"einops",
 ]
 
 [tool.setuptools.dynamic]

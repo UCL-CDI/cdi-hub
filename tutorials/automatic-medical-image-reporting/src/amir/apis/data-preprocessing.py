@@ -1,588 +1,252 @@
-#!/usr/bin/env python
-# coding: utf-8
+"""
+References:
+https://www.kaggle.com/code/esenin/chestxnet2-0
+"""
 
-
-import itertools
-import os
 import re
-import xml.etree.ElementTree as ET
-from collections import Counter, defaultdict
+from pathlib import Path
+
+import nltk
+import numpy as np
+import pandas as pd
+from loguru import logger
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('stopwords')
+
+
+import os
 
 import cv2
 import matplotlib.pyplot as plt
-import nltk
-import numpy as np
-# extract the raw data
-import pandas as pd
-# import seaborn as sns
-from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from PIL import Image
-# from tensorflow.keras.applications import densenet
-# from tensorflow.keras.applications.densenet import preprocess_input
-# import tensorflow as tf
+import torch
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
 
-from tqdm import tqdm
-from wordcloud import WordCloud
+HOME_PATH = Path().home()
+DATA_PATH = HOME_PATH / 'datasets/chest-xrays-indiana-university/unzip'
 
-#nltk.download('stopwords')
-#nltk.download('punkt')
+df_projections = pd.read_csv( str(DATA_PATH) + '/indiana_projections.csv')
+df_reports = pd.read_csv( str(DATA_PATH) + '/indiana_reports.csv')
 
 
-# from google.colab import drive
-# drive.mount('/content/drive')
+logger.info(f"len(df_projections) : {len(df_projections)}")
+logger.info(f"len(df_reports) : {len(df_reports)}")
+logger.info(f"df_projections : {df_projections}")
+logger.info(f"df_reports: {df_reports}")
 
+df_frontal_projections = df_projections[df_projections['projection'] == 'Frontal']
+df_frontal_projections['projection'].unique()
 
-###########################################
-## CHANGE THIS PATHS BASED ON YOUR SYSTEM
-HOME_PATH = os.path.expanduser(f'~')
-USERNAME = os.path.split(HOME_PATH)[1]
-REPOSITORY_PATH='repositories/budai4medtech/amir/'
-FULL_REPO_PATH = HOME_PATH+'/'+REPOSITORY_PATH
-FULL_DATASET_PATH = FULL_REPO_PATH  + 'datasets/'
 
-print(f'FULL_DATASET_PATH: {FULL_DATASET_PATH}' )
+images_captions_df = pd.DataFrame({'image': [], 'diagnosis': [],
+                                    'caption': [],'number_of_words':[]})
+for i in range(len(df_frontal_projections)):
+    uid = df_frontal_projections.iloc[i]['uid']
+    image = df_frontal_projections.iloc[i]['filename']
+    index = df_reports.loc[df_reports['uid'] ==uid]
 
-# extracting data from the xml documents
-# directory = '/content/drive/MyDrive/image/ecgen-radiology'
-directory = FULL_DATASET_PATH + 'ecgen-radiology'
+    if not index.empty:
+        index = index.index[0]
+        caption = df_reports.iloc[index]['findings']
+        diagnosis = df_reports.iloc[index]['MeSH']
 
+        number_of_words = len(str(caption).split())
 
+        if type(caption) == float:
+            # TO DO: handle NaN
+            continue
+        images_captions_df = pd.concat([images_captions_df, pd.DataFrame([{'image': image, 'diagnosis':diagnosis, 'caption': caption ,'number_of_words':number_of_words}])], ignore_index=True)
 
-n=0
-for filename in tqdm(os.listdir(directory)):
-    if filename.endswith(".png"):
-        n+=1
-print(n)
+images_captions_df["number_of_words"] =  images_captions_df["caption"].apply(lambda text: len(str(text).split()))
+images_captions_df['number_of_words'] = images_captions_df['number_of_words'].astype(int)
 
+logger.info(f"len(images_captions_df) {len(images_captions_df)}")
+logger.info(f"images_captions_df[:10] {images_captions_df[:10]}")
 
 
-#select raw text in report
 
-img = []
-img_impression = []
-img_finding = []
-for filename in tqdm(os.listdir(directory)):
-    if filename.endswith(".xml"):
-        f = directory + '/' + filename
-        tree = ET.parse(f)
-        root = tree.getroot()
-        for child in root:
-            if child.tag == 'MedlineCitation':
-                for attr in child:
-                    if attr.tag == 'Article':
-                        for i in attr:
-                            if i.tag == 'Abstract':
-                                for name in i:
-                                    if name.get('Label') == 'FINDINGS':
-                                        finding=name.text
 
-        for p_image in root.findall('parentImage'):
+# Initialize the lemmatizer
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
 
-            img.append(p_image.get('id'))
-            img_finding.append(finding)
+# Preprocessing function
+def preprocess_text(text):
+    if pd.isna(text):
+        return ""
 
+    text = text.replace('/', ' ').replace(';', ' ')
+    # Convert to lowercase
+    text = text.lower()
 
+    # Remove punctuation and special characters
+    text = re.sub(r'[^\w\s]', '', text)
 
-dataset = pd.DataFrame()
-dataset['Image_path'] = img
-dataset['Finding'] = img_finding
+    # Remove numbers
+    text = re.sub(r'\d+', '', text)
 
+    # Tokenize
+    tokens = text.split()
 
-dataset.head(5)
+    # Remove stopwords
+    tokens = [word for word in tokens if word not in stop_words]
 
+    # Join back into a single string
+    return " ".join(tokens)
 
+# Apply preprocessing to the 'caption' and 'diagnosis' columns
+images_captions_df['caption'] = images_captions_df['caption'].apply(preprocess_text)
+images_captions_df['diagnosis'] = images_captions_df['diagnosis'].apply(preprocess_text)
 
-print('Dataset Shape:', dataset.shape)
+logger.info(f"images_captions_df[['image', 'diagnosis', 'caption']].head() {images_captions_df[['image', 'diagnosis', 'caption']].head()}")
 
-
-def absolute_path(x):
-    '''Makes the path absolute '''
-    x = directory +'/'+ x + ".png"
-    return x
-
-dataset['Image_path'] = dataset['Image_path'].apply(lambda x : absolute_path(x)) # making the paths absolute
-
-
-
-dataset.head(5)
-
-
-
-def image_desc_plotter(data, n, rep):
-    count = 1
-    fig = plt.figure(figsize=(10,20))
-
-    if rep == 'finding':
-
-        for filename in data['Image_path'].values[95:100]:
-
-            findings = list(data["Finding"].loc[data["Image_path"] == filename].values)
-            print(filename)
-
-            img = cv2.imread(filename)
-            ax = fig.add_subplot(n, 2 , count , xticks=[], yticks=[])
-            ax.imshow(img)
-            count += 1
-            ax = fig.add_subplot(n ,2 ,count)
-            plt.axis('off')
-            ax.plot()
-            ax.set_xlim(0,1)
-            ax.set_ylim(0, len(findings))
-            for i, f in enumerate(findings):
-                ax.text(0,i,f,fontsize=20)
-            count += 1
-        plt.show()
-
-    else:
-        print("Enter a valid String")
-
-
-
-image_desc_plotter(dataset, 5, 'finding')
-
-
-
-# loading the heights and widths of each image
-h = []
-w = []
-for i in tqdm(np.unique(dataset['Image_path'].values)):
-    img = cv2.imread(i)
-    h.append(img.shape[0])
-    w.append(img.shape[1])
-
-
-
-plt.figure(figsize=(10,4))
-plt.subplot(121)
-plt.title('Height Plot')
-plt.ylabel('Heights')
-plt.xlabel('--Images--')
-# sns.scatterplot(range(len(h)), h)
-sns.scatterplot(h)
-plt.subplot(122)
-plt.title('Width Plot')
-plt.ylabel('Widths')
-plt.xlabel('--Images--')
-# sns.scatterplot(range(len(w)), h)
-sns.scatterplot(w)
-
-
-
-
-print('Number of Images:', dataset['Image_path'].nunique())
-
-
-
-# number of missing values
-dataset.isnull().sum()
-
-
-
-
-dataset = dataset.dropna(axis=0)
-dataset.isnull().sum()
-
-
-
-print('New Shape of the Data:', dataset.shape)
-
-
-
-plt.figure(figsize=(14,7))
-plt.subplot(131)
-img1 = cv2.imread(dataset['Image_path'].values[6])
-plt.imshow(img1)
-plt.title(dataset['Image_path'].values[6])
-plt.subplot(132)
-img2 = cv2.imread(dataset['Image_path'].values[7])
-plt.title(dataset['Image_path'].values[7])
-plt.imshow(img2)
-plt.subplot(133)
-img3 = cv2.imread(dataset['Image_path'].values[8])
-plt.title(dataset['Image_path'].values[8])
-plt.imshow(img3)
-
-
-
-
-dataset['Finding'].values[6], dataset['Finding'].values[7], dataset['Finding'].values[8]
-
-
-# The dataset consists of multiple chest shots of the same person. The images of a person has the same file name except the last 4 digits. Therefore that can be taken as the person ID.
-
-
-# This creates 2 dictionaries with keys as the person id and the number of images and findings for that person.
-images = {}
-findings = {}
-for img, fin in dataset.values:
-    a = img.split('-')
-    a.pop(len(a)-1)
-    a = '-'.join(e for e in a)
-    if a not in images.keys():
-        images[a] = 1
-        findings[a] = fin
-    else:
-        images[a] += 1
-        findings[a] = fin
-
-
-
-# images['/content/drive/MyDrive/image/NLMCXR_png/CXR1808_IM-0524'], findings['/content/drive/MyDrive/image/NLMCXR_png/CXR1808_IM-0524']
-images[directory+'/CXR1808_IM-0524'], findings[directory+'/CXR1808_IM-0524']
-
-
-
-
-print('Total Number of Unique_IDs :', len(images.keys()))
-
-
-
-
-plt.figure(figsize=(17,5))
-plt.bar(range(len(images.keys())), images.values())
-plt.ylabel('Total Images per individual')
-plt.xlabel('Number of Individuals in the Data')
-
-
-
-one = 0
-two = 0
-three = 0
-four = 0
-for v in images.values():
-    if v == 1:
-        one +=1
-    elif v == 2:
-        two += 1
-    elif v == 3:
-        three += 1
-    elif v == 4:
-        four += 1
-    else:
-        print('Error')
-
-
-one, two, three, four
-
-
-
-len(images)
-
-
-
-def train_test_split(data):
-    persons = list(data.keys())
-    persons_train = persons[:2500]
-    persons_cv = persons[2500:3000]
-    persons_test = persons[3000:3350]
-    return persons_train, persons_cv, persons_test
-
-
-
-
-images_train, images_cv, images_test = train_test_split(images)
-
-
-
-
-def combining_images(image_set):
-
-    image_per_person = defaultdict(list)  # creating a list of dictionary to store all the image paths
-                                            #corresponding to a person_id
-    for pid in image_set:
-        for img in dataset['Image_path'].values:
-            if pid in img:
-                image_per_person[pid].append(img)
-            else:
-                continue
-    return image_per_person
-
-
-
-img_per_person_train = combining_images(images_train)
-img_per_person_cv = combining_images(images_cv)
-img_per_person_test = combining_images(images_test)
-
-
-
-len(img_per_person_train), len(images_train)
-
-
-
-
-def load_image(file):
-    img = tf.io.read_file(file)
-    img = tf.image.decode_png(img, channels=3)
-    img = tf.image.convert_image_dtype(img, tf.float32)
-    return img
-
-
-
-plt.figure(figsize=(9,9))
-plt.subplot(221)
-# plt.imshow(load_image('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-12012.png'))
-# plt.title('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-12012.png')
-plt.imshow(load_image(directory+'/CXR1102_IM-0069-12012.png'))
-plt.title(directory+'/CXR1102_IM-0069-12012.png')
-
-plt.subplot(222)
-# plt.imshow(load_image('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-2001.png'))
-# plt.title('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-2001.png')
-plt.imshow(load_image(directory+'/CXR1102_IM-0069-2001.png'))
-plt.title(directory+'/CXR1102_IM-0069-2001.png')
-
-plt.subplot(223)
-# plt.imshow(load_image('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-3001.png'))
-# plt.title('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-3001.png')
-plt.imshow(load_image(directory+'/CXR1102_IM-0069-3001.png'))
-plt.title(directory+'/CXR1102_IM-0069-3001.png')
-
-plt.subplot(224)
-# plt.imshow(load_image('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-4004.png'))
-# plt.title('/content/drive/MyDrive/image/NLMCXR_png/CXR1102_IM-0069-4004.png')
-
-plt.imshow(load_image(directory+'/CXR1102_IM-0069-4004.png'))
-plt.title(directory+'/CXR1102_IM-0069-4004.png')
-
-
-
-
-def create_data(image_per_person):
-    # new dataset
-    person_id, image1, image2, report = [],[],[],[]
-    for pid, imgs in image_per_person.items():   #contains pid and the images associated with that pid
-
-        if len(imgs) == 1:
-            image1.append(imgs[0])
-            image2.append(imgs[0])
-            person_id.append(pid)
-            report.append(findings[pid])
-        else:
-            num = 0
-            a = itertools.combinations(imgs, 2)
-            for i in a:
-                image1.append(i[0])
-                image2.append(i[1])
-                person_id.append(pid + '_' + str(num))
-                report.append(findings[pid])
-                num += 1
-    data = pd.DataFrame()
-    data['Person_id'] = person_id
-    data['Image1'] = image1
-    data['Image2'] = image2
-    data['Report'] = report
-
-    return data
-
-
-
-
-train = create_data(img_per_person_train)
-test = create_data(img_per_person_test)
-cv = create_data(img_per_person_cv)
-
-
-
-train.head()
-
-
-# ### Text Cleaning
-
-
-def lowercase(text):
-    '''Converts to lowercase'''
-    new_text = []
-    for line in text:
-        new_text.append(line.lower())
-    return new_text
-
-def decontractions(text):
-    '''Performs decontractions in the doc'''
-    new_text = []
-    for phrase in text:
-        phrase = re.sub(r"won't", "will not", phrase)
-        phrase = re.sub(r"can\'t", "can not", phrase)
-        phrase = re.sub(r"couldn\'t", "could not", phrase)
-        phrase = re.sub(r"shouldn\'t", "should not", phrase)
-        phrase = re.sub(r"wouldn\'t", "would not", phrase)
-        # general
-        phrase = re.sub(r"n\'t", " not", phrase)
-        phrase = re.sub(r"\'re", " are", phrase)
-        phrase = re.sub(r"\'s", " is", phrase)
-        phrase = re.sub(r"\'d", " would", phrase)
-        phrase = re.sub(r"\'ll", " will", phrase)
-        phrase = re.sub(r"\'t", " not", phrase)
-        phrase = re.sub(r"\'ve", " have", phrase)
-        phrase = re.sub(r"\'m", " am", phrase)
-        phrase = re.sub(r"\*+", "abuse", phrase)
-        new_text.append(phrase)
-
-    return new_text
-
-def rem_punctuations(text):
-    '''Removes punctuations'''
-    punctuations = '''!()-[]{};:'"\,<>/?@#$%^&*~''' # full stop is not removed
-    new_text = []
-    for line in text:
-        for char in line:
-            if char in punctuations:
-                line = line.replace(char, "")
-        new_text.append(' '.join(e for e in line.split()))
-    return new_text
-
-def rem_numbers(text):
-    '''Removes numbers and irrelevant text like xxxx*'''
-    new_text = []
-    for line in text:
-        temp = re.sub(r'x*','',line)
-        new_text.append(re.sub(r'\d','',temp))
-    return new_text
-
-def words_filter(text):
-    '''Removes words less than 2 characters except no and ct'''
-    new_text = []
-    for line in text:
-        temp = line.split()
-        temp2 = []
-        for word in temp:
-            if  len(word) <=2 and word != 'no' and word != 'ct':
-                continue
-            else:
-                temp2.append(word)
-        new_text.append(' '.join(e for e in temp2))
-    return new_text
-
-def multiple_fullstops(text):
-    ''' Removes multiple full stops from the text'''
-    new_text = []
-    for line in text:
-        new_text.append(re.sub(r'\.\.+', '.', line))
-    return new_text
-
-def fullstops(text):
-    new_text = []
-    for line in text:
-        new_text.append(re.sub('\.', ' .', line))
-    return new_text
-
-def multiple_spaces(text):
-    new_text = []
-    for line in text:
-        new_text.append(' '.join(e for e in line.split()))
-    return new_text
-
-def separting_startg_words(text):
-    new_text = []
-    for line in text:
-        temp = []
-        words = line.split()
-        for i in words:
-            if i.startswith('.') == False:
-                temp.append(i)
-            else:
-                w = i.replace('.','. ')
-                temp.append(w)
-        new_text.append(' '.join(e for e in temp))
-    return new_text
-
-def rem_apostrophes(text):
-    new_text = []
-    for line in text:
-        new_text.append(re.sub("'",'',line))
-    return new_text
-
-
-
-
-def text_preprocessing(text):
-    '''Combines all the preprocess functions'''
-    new_text = lowercase(text)
-    new_text = decontractions(new_text)
-    new_text = rem_punctuations(new_text)
-    new_text = rem_numbers(new_text)
-    new_text = words_filter(new_text)
-    new_text = multiple_fullstops(new_text)
-    new_text = fullstops(new_text)
-    new_text = multiple_spaces(new_text)
-    new_text = separting_startg_words(new_text)
-    new_text = rem_apostrophes(new_text)
-    return new_text
-
-
-
-
-train['Report'] = text_preprocessing(train['Report'])
-test['Report'] = text_preprocessing(test['Report'])
-cv['Report'] = text_preprocessing(cv['Report'])
-
-
-
-
-train.head()
-
-
-
-
-l = [len(e.split()) for e in train['Report'].values]  # Number of words in each report
-max(l)
-
-
-
-
-l = []
-for i in train['Report'].values:
-    l.extend(i.split())
-c = Counter(l)
-words = []
-count = []
-for k,v in c.items():
-    words.append(k)
-    count.append(v)
-words_count = list(zip(count, words))
-top_50_words = sorted(words_count)[::-1][:50]
-bottom_50_words = sorted(words_count)[:50]
-
-
-
-
-plt.figure(figsize=(15,5))
-plt.bar(range(50), [c for c,w in top_50_words])
-plt.title('Top 50 Most Occuring Words')
-plt.xlabel('Words')
-plt.ylabel('Count')
-plt.xticks(ticks=range(50), labels=[w for c,w in top_50_words], rotation=90)
-plt.show()
-
-
-
-w = WordCloud(height=1500, width=1500).generate(str(l))
-
-
-
-plt.figure(figsize=(12,12))
-plt.title('WordCloud of Reports')
-plt.imshow(w)
-plt.show()
-
-
-
-
-def remodelling(x):
-    '''adds start and end tokens to a sentence '''
-    return 'startseq' + ' ' + x + ' ' + 'endseq'
-
-
-
-
-train['Report'] = train['Report'].apply(lambda x : remodelling(x))
-test['Report'] = test['Report'].apply(lambda x : remodelling(x))
-cv['Report'] = cv['Report'].apply(lambda x : remodelling(x))
-
-
-
-# save the cleaned data(STRUCTURED DATA)
-train.to_csv('Train_Data.csv', index=False)
-test.to_csv('Test_Data.csv', index=False)
-cv.to_csv('CV_Data.csv', index=False)
+filtered_df = images_captions_df[images_captions_df['diagnosis'] != 'normal']
+logger.info(f"filtered_df['diagnosis'] {filtered_df['diagnosis']}")
+
+
+# Define pneumonia keywords
+pulmonary_keywords = ['pulmonary']
+# pneumonia_keywords = ['Lung', 'Lungs', 'pneumonia', 'Pulmonary','Pulmonary', 'asthma']
+# pneumonia_keywords = ['alveolitis', 'bronchopneumonia', 'pneumonia', 'pneumonitis', 'lung infection',
+#                      'Alveolitis', 'Bronchopneumonia', 'Pneumonia', 'Pneumonitis', 'Lung infection',
+#                      'Lung']
+
+# Function to classify diagnosis as 'normal' or 'pneumonia'
+def classify_diagnosis(diagnosis):
+    if any(keyword in str(diagnosis) for keyword in pulmonary_keywords):
+        return 'pulmonary'
+    if str(diagnosis) == 'normal':
+        return 'normal'
+    return 'other'
+
+# Apply the function to the diagnosis column
+images_captions_df['diagnosis'] = images_captions_df['diagnosis'].apply(classify_diagnosis)
+
+pulmonary_len = len(images_captions_df[images_captions_df['diagnosis'] == 'pulmonary'])
+normal_len = len(images_captions_df[images_captions_df['diagnosis'] == 'normal'])
+other_len = len(images_captions_df[images_captions_df['diagnosis'] == 'other'])
+
+logger.info(f"len(images_captions_df) {len(images_captions_df)}")
+logger.info(f"pulmonary_len {pulmonary_len}")
+logger.info(f"normal_len {normal_len}")
+logger.info(f"other_len {other_len}")
+
+
+class CheXNet_CNN_Dataset(Dataset):
+    def __init__(self, dataframe, image_folder, image_size=224, transform=None):
+        """
+        Args:
+            dataframe (pd.DataFrame): DataFrame containing image file names and labels.
+            image_folder (str): Path to the folder containing the images.
+            image_size (int, optional): The target size to which images are resized. Defaults to 224.
+            transform (callable, optional): Optional transform to be applied on an image.
+        """
+        self.image_paths = [os.path.join(image_folder, filename) for filename in dataframe['image']]
+        self.labels = dataframe['diagnosis'].tolist()
+        self.image_size = image_size
+        self.transform = transform
+
+        # Encode labels to integers
+        self.label_encoder = LabelEncoder()
+        self.encoded_labels = self.label_encoder.fit_transform(self.labels)
+
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        image_path = self.image_paths[idx]
+        label = self.encoded_labels[idx]
+
+        # Load and preprocess image
+        image = self.preprocess_image(image_path)
+
+        # Apply transformations if any
+        if self.transform:
+            image = self.transform(image)
+
+        # Return image and label
+        return image, label
+
+    def preprocess_image(self, image_path):
+        """
+        Loads and preprocesses an image.
+
+        Args:
+            image_path (str): Path to the image to load.
+
+        Returns:
+            torch.Tensor: The preprocessed image as a tensor.
+        """
+        # Load the image using OpenCV
+        img = cv2.imread(image_path)
+        # Resize the image
+        img = cv2.resize(img, (self.image_size, self.image_size))
+        # Convert from BGR to RGB
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # Normalize the image (0 to 1)
+        img = img / 255.0
+        # Convert to torch tensor
+        img = torch.tensor(img, dtype=torch.float32)
+        # Reorder dimensions to (C, H, W) for PyTorch
+        img = img.permute(2, 0, 1)
+
+        return img
+
+
+# Data preprocessing using transforms
+data_train_transforms = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(),  # Random horizontal flip
+    transforms.RandomRotation(15),  # Random rotation (15 degrees)
+    transforms.RandomAffine(translate=(0.1, 0.1), scale=(0.9, 1.1), degrees=(-10, 10)),  # Random affine transformation (translation and scaling)
+    transforms.ToTensor(),
+#     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+# Data preprocessing using transforms
+data_test_transforms = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+#     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+
+def display_image(image_tensor):
+    """
+    Displays an image.
+
+    Args:
+        image_tensor (torch.Tensor): The image tensor to display.
+    """
+    image_np = image_tensor.permute(1, 2, 0).numpy()  # Convert to HWC format
+    plt.imshow(image_np)
+    plt.axis('off')  # Hide axis labels
+    plt.show()
+
+# Splitting the DataFrame into train and test sets
+train_df, test_df = train_test_split(images_captions_df, test_size=0.2, stratify=images_captions_df['diagnosis'])
+
+# Initialize the train and test datasets
+img_base_folder = DATA_PATH / 'images/images_normalized'
+
+train_dataset = CheXNet_CNN_Dataset(train_df, img_base_folder, image_size=224, transform=data_train_transforms)
+test_dataset = CheXNet_CNN_Dataset(test_df, img_base_folder, image_size=224, transform=data_test_transforms)
+
+# Create DataLoaders for batching
+train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+test_dataloader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+
+
+for images, labels in train_dataloader:
+    display_image(images[0])  # Display the first image in the batch
+    break
+
+for images, labels in test_dataloader:
+    display_image(images[0])  # Display the first image in the batch
+    break

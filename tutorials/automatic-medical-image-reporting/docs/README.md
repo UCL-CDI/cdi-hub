@@ -31,9 +31,10 @@ uv pip install -e ".[test,learning]"
 
 ## Testing 
 ```
-python -m pytest -v -s tests/??/test_data_paths.py::test_mobious_dataset
+cd ~/cdi-hub/tutorials/automatic-medical-image-reporting
+source .venv/bin/activate 
+python src/amir/apis/data-preprocessing.py
 ```
-
 
 ## Pre-commit
 ```
