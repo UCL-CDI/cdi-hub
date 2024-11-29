@@ -23,14 +23,18 @@ sudo snap install aws-cli --classic
 ```
 2. aws configure
 ```
-AWS Access Key ID [None]:?
-AWS Secret Access Key [None]:?
-Default region name [None]:?
-Default output format [None]:?
+AWS Access Key ID [None]: :warning: "Where to find it?"
+AWS Secret Access Key [None]: :warning:  "Where to find it?"
+Default region name [None]: :warning:  "Where to find it?"
+Default output format [None]: :warning:  "Where to find it?"
 ```
-3. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+3. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/   
+* [ ] :warning: "The AMI ID (ami-08eb150f611ca277f) is not valid. The AMI might no longer exist or may be specific to another account or Region."
+* [ ] :warning:  Create key pair: "You are not authorized to perform this operation."
+* [ ] :warning:  "No VPCs found, either this account doesn’t have any VPCs in this region or an invalid search has been entered. "
+* [ ] :warning:  "No subnets found, either this account has no subnets in this region or an invalid search has been entered"
+* [ ] :warning: "Auto assign public IP must be set. Select Enable or Disable."
 ![fig](aws-launch-instance.svg)
-
 
 4. To create a Spot Instance request using run-instances
 ```
