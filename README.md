@@ -18,7 +18,8 @@ AWS account, etc
 See [CONTRIBUTING](CONTRIBUTING.md)
 
 # Glossary
-* Virtual Private Cloud (VPC)
+* Amazon Elastic Compute Cloud [(EC2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
+* Virtual Private Cloud [(VPC)](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
 * AWS Glue Crawler
 * AWS DynamoDB
 * AWS Athena
