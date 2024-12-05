@@ -17,8 +17,6 @@ Github account, AWS account, and UCL account.
 # Tutorials
 Explore [tutorials](tutorials) that showcase examples of best practices in machine learning and software development, such as working with multimodal medical data to train and test large language model pipelines and more.
 
-/automatic-medical-image-reporting/
-
 # Contributing
 See [CONTRIBUTING](CONTRIBUTING.md)
 
