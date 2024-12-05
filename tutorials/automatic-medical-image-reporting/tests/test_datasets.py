@@ -1,10 +1,10 @@
-import pandas as pd
 import os
 from pathlib import Path
-import yaml
-from loguru import logger
-from amir.utils.datasets import CheXNet_CNN_Dataset
 
+import pandas as pd
+import yaml
+from amir.utils.datasets import CheXNet_CNN_Dataset
+from loguru import logger
 
 with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
     config_yaml = yaml.load(file, Loader=yaml.FullLoader)
@@ -20,7 +20,7 @@ def test_CheXNet_CNN_Dataset():
     """
     # Define transforms - note we do ToTensor in the dataset class
 
-    
+
     DATASET_PATH = os.path.join(str(Path.home()), config_yaml['ABS_DATA_PATH'])
     logger.info(f"")
     logger.info(f"DATASET_PATH: {DATASET_PATH}")
@@ -32,5 +32,5 @@ def test_CheXNet_CNN_Dataset():
     logger.info(f"len(df_projections) : {len(df_projections)}")
     logger.info(f"len(df_reports) : {len(df_reports)}")
 
-    assert len(df_projections) == 7466, f"Expected lenght of projections 7466"
+    assert len(df_projections) == 7466, f"Expected length of projections 7466"
     assert len(df_reports) == 3851, f"Expected length of reports 3851"

@@ -1,8 +1,10 @@
 import os
+
 import cv2
 import torch
-from torch.utils.data import DataLoader, Dataset
 from sklearn.preprocessing import LabelEncoder
+from torch.utils.data import DataLoader, Dataset
+
 
 class CheXNet_CNN_Dataset(Dataset):
     def __init__(self, dataframe, image_folder, image_size=224, transform=None):
@@ -63,4 +65,3 @@ class CheXNet_CNN_Dataset(Dataset):
         img = img.permute(2, 0, 1)
 
         return img
-
