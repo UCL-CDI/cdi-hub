@@ -2,31 +2,28 @@
 This is central repository for CDI Applications, featuring templates, resources, documentation, and more. 
 
 ## Table of contents
-- [Overview](#overview)  
-- [Prerequisites](#prerequisites)   
-- [Contributing](#contributing)
-- [Glossary](#glossary)
-- [More information](#more-information)
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Tutorials](#tutorials)
+* [Contributing](#contributing)
+* [Glossary and references](#glossary-and-references)
 
 # Overview
 This repository is a comprehensive collection of CDI applications, offering templates, tutorials, and resources tailored for CDI cohorts, with a focus on AWS services.
 
 # Prerequisites 
-AWS account, etc
+Github account, AWS account, and UCL account. 
+
+# Tutorials
+Explore [tutorials](tutorials) that showcase examples of best practices in machine learning and software development, such as working with multimodal medical data to train and test large language model pipelines and more.
+
+/automatic-medical-image-reporting/
 
 # Contributing
 See [CONTRIBUTING](CONTRIBUTING.md)
 
-# Glossary
-* Amazon Elastic Compute Cloud [(EC2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
-* Virtual Private Cloud [(VPC)](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
-* AWS Glue Crawler
-* AWS DynamoDB
-* AWS Athena
-
-# More information  
-* https://github.com/aws-samples   
-* https://github.com/aws-samples/aws-research-workshops   
+# Glossary and references
+See [glossary](docs/glossary.md) and [references](docs/references.md).
 
 ## :octocat: Cloning repository
 * Generate your SSH keys as suggested [here](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
