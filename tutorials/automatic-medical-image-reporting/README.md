@@ -3,7 +3,7 @@
 ![fig](amir.svg)
 
 ## Project details   
-The interpretation and diagnosis of medical images rely on trained radiologists, consisting on reasoning process of visual features and prior knownledge [1].
+The interpretation and diagnosis of medical images rely on trained radiologists, consisting on reasoning process of visual features and prior knowledge [1].
 To address the challenge of meeting the demand for available experts to interpret medical images, which is labor-intensive task and can lead to delays and misdiagnoses, the emerging field of automatic medical report generation, AMIR, combines computer vision (CV) and natural language processing (NLP).
 Automated interpretation of medical images to generate human-like reports can help alleviate this burden by accelerating diagnosis, especially in situations where experts are unavailable. 
 However, implementing, training, testing, and evaluating models are current real-world challenges. 
