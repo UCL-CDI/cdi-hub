@@ -1,5 +1,14 @@
 # Local setup 
 
+## Setting up GPU drivers
+* See [NVIDIA CUDA Installation Guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/).
+* Current local hardware capbilities
+```
+CUDA Version: 12.6
+Driver Version: 560.28.03      
+NVIDIA RTX A2000 8GB Laptop
+```
+
 ## Install [uv](https://github.com/astral-sh/uv): "An extremely fast Python package manager".
 ```
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -34,6 +43,7 @@ uv pip install -e ".[test,learning]"
 cd ~/cdi-hub/tutorials/automatic-medical-image-reporting
 source .venv/bin/activate 
 python src/amir/apis/data-preprocessing.py
+python src/amir/apis/train_model.py
 ```
 
 ## Pre-commit

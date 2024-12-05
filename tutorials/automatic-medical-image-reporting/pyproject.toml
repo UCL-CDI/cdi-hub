@@ -27,6 +27,7 @@ dependencies = [
     "nltk",
     "pandas",
     "PyQt5",# for FigureCanvasAgg interactivity problem
+    "certifi",
     #"bs4",
     #"wordcloud",
 ]
@@ -43,6 +44,7 @@ learning = [
     "torch",
     "torchvision",
     "scikit-learn",
+    "pretrainedmodels",
     #"einops",
 ]
 
