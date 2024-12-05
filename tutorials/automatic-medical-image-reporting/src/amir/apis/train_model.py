@@ -1,17 +1,12 @@
 """
 References:
 https://www.kaggle.com/code/esenin/chestxnet2-0
+python src/amir/apis/train_model.py
 """
 
 
-import time
-
-
-########################
-# data-preprocessing.py
-
-
 import re
+import time
 from pathlib import Path
 
 import nltk
@@ -20,6 +15,12 @@ import pandas as pd
 from loguru import logger
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+
+########################
+# data-preprocessing.py
+
+
+
 
 nltk.download('stopwords')
 
@@ -228,29 +229,24 @@ test_dataloader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 import ssl
 import urllib.request
 
-
 # Bypass SSL verification for se_resnext101_32x4d
 ssl._create_default_https_context = ssl._create_unverified_context
-import torch
-import torch.nn as nn
-import torchvision.models as models
-import os
 import glob
-import pandas as pd
-import numpy as np
-from torchvision import transforms
-from torch.utils.data import Dataset, DataLoader
-from PIL import Image
+import os
 
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
-from pretrainedmodels import se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
-
 import torch.optim as optim
+import torchvision.models as models
+from PIL import Image
+from pretrainedmodels import \
+    se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
+from sklearn.metrics import f1_score, precision_score, recall_score
 from torch.optim import lr_scheduler
-from sklearn.metrics import precision_score, recall_score, f1_score
-
-
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
 
 # Load the pre-trained SENet-154 model
 base_model = se_resnext101_32x4d(pretrained='imagenet')  # Load pre-trained weights
@@ -298,7 +294,7 @@ def train(model, train_loader, criterion, optimizer, scheduler, num_epochs=10):
             loss = criterion(outputs, labels)  # Compute loss for multi-class classification
             loss.backward()  # Backpropagate the loss
             optimizer.step()  # Update the model parameters
-            
+
             running_loss += loss.item()
             _, preds = torch.max(outputs, 1)  # Get predicted class (index of max output)
             correct += (preds == labels).sum().item()  # Count correct predictions
@@ -309,7 +305,7 @@ def train(model, train_loader, criterion, optimizer, scheduler, num_epochs=10):
         epoch_acc = correct / total
         scheduler.step(epoch_loss)  # Step the learning rate scheduler
 
-        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {epoch_acc:.4f}')    
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {epoch_acc:.4f}')
 
 
 
@@ -319,27 +315,27 @@ def evaluate(model, test_loader):
     total = 0
     correct = 0
     all_preds, all_labels = [], []
-    
+
     with torch.no_grad():
         for images, labels in test_loader:
             images, labels = images.to(device), labels.to(device)  # Move to GPU/CPU
             outputs = model(images)  # Forward pass
             _, preds = torch.max(outputs, 1)  # Get predicted class (index of max output)
-            
+
             all_labels.extend(labels.cpu().numpy())
             all_preds.extend(preds.cpu().numpy())
-            
+
             correct += (preds == labels).sum().item()  # Count correct predictions
             total += labels.size(0)  # Total number of samples
-    
+
     # Calculate accuracy
     accuracy = correct / total
-    
+
     # Calculate precision, recall, and F1 score for multi-class classification
     precision = precision_score(all_labels, all_preds, average='macro',zero_division=0)  # or 'weighted' if you want to weight by class size
     recall = recall_score(all_labels, all_preds, average='macro')  # or 'weighted'
     f1_score_val = f1_score(all_labels, all_preds, average='macro')  # or 'weighted'
-    
+
     # Print the evaluation metrics
     print(f'Test Accuracy: {accuracy:.4f}')
     print(f'Precision (Macro): {precision:.4f}')
@@ -361,4 +357,3 @@ print(f"Elapsed time for the training loop: {elapsedtime/60} (mins)")
 
 # Evaluate the model
 evaluate(model, test_dataloader)
-
