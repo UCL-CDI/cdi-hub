@@ -1,9 +1,11 @@
 
-import pandas as pd
 import re
+
 import nltk
-from nltk.stem import WordNetLemmatizer
+import pandas as pd
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
 nltk.download('stopwords')
 import matplotlib.pyplot as plt
 
@@ -50,4 +52,3 @@ def display_image(image_tensor):
     plt.imshow(image_np)
     plt.axis('off')  # Hide axis labels
     plt.show()
-

@@ -4,13 +4,11 @@ from pathlib import Path
 import pandas as pd
 import yaml
 from amir.utils.datasets import CheXNet_CNN_Dataset
-from amir.utils.utils import preprocess_text, display_image
+from amir.utils.utils import display_image, preprocess_text
 from loguru import logger
 from sklearn.model_selection import train_test_split
-from torchvision import transforms
 from torch.utils.data import DataLoader, Dataset
-
-
+from torchvision import transforms
 
 with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
     config_yaml = yaml.load(file, Loader=yaml.FullLoader)
