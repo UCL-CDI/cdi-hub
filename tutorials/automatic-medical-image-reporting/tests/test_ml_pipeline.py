@@ -17,10 +17,8 @@ with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
 def test_CheXNet_CNN_Dataset():
     """
     Test CheXNet_CNN_Dataset class
-    pytest -vs tests/test_datasets.py::test_CheXNet_CNN_Dataset
-        TODO:
-            - Use 640x400 image size
-            - Test mask to show sclera, iris, pupil and background
+    pytest -vs tests/test_ml_pipeline.py::test_CheXNet_CNN_Dataset
+
     References:
         https://www.kaggle.com/code/esenin/chestxnet2-0
     """
