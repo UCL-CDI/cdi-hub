@@ -241,16 +241,10 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision.models as models
 from PIL import Image
-from pretrainedmodels import \
-    se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
 from sklearn.metrics import f1_score, precision_score, recall_score
 from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
-
-# Load the pre-trained SENet-154 model
-base_model = se_resnext101_32x4d(pretrained='imagenet')  # Load pre-trained weights
-# Downloading 187M/187M [09:11<00:00, 356kB/s]: "http://data.lip6.fr/cadene/pretrainedmodels/se_resnext101_32x4d-3b2fe3d8.pth" to $USER/.cache/torch/hub/checkpoints/se_resnext101_32x4d-3b2fe3d8.pth
 
 # Modify the final layer (Inception-ResNet uses a 'last_linear' layer for classification)
 num_features = base_model.last_linear.in_features

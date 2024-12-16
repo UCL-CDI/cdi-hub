@@ -9,6 +9,9 @@ from loguru import logger
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
+from pretrainedmodels import \
+    se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
+
 
 with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
     config_yaml = yaml.load(file, Loader=yaml.FullLoader)
@@ -162,3 +165,17 @@ def test_CheXNet_CNN_Dataset():
     for images, labels in test_dataloader:
         display_image(images[0])  # Display the first image in the batch
         break
+
+def test_train_model():
+    """
+    Test CheXNet_CNN_Dataset class
+    pytest -vs tests/test_ml_pipeline.py::test_train_model
+
+    References:
+        https://www.kaggle.com/code/esenin/chestxnet2-0
+    """ 
+ 
+    logger.info(f"Test train_model")
+    # Load the pre-trained SENet-154 model
+    base_model = se_resnext101_32x4d(pretrained='imagenet')  # Load pre-trained weights
+    # Downloading 187M/187M [09:11<00:00, 356kB/s]: "http://data.lip6.fr/cadene/pretrainedmodels/se_resnext101_32x4d-3b2fe3d8.pth" to $USER/.cache/torch/hub/checkpoints/se_resnext101_32x4d-3b2fe3d8.pth
