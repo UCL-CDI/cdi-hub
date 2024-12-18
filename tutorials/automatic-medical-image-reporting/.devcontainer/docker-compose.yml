@@ -4,7 +4,7 @@ services:
     container_name: template-project2_v1.0
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: Dockerfile
     platform: linux/x86_64
     volumes:
       - ${PWD}/..:/home/${USER}/workspace

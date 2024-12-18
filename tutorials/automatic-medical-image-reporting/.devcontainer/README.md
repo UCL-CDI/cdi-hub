@@ -17,6 +17,7 @@ docker attach <ID>
 docker stop <ID>
 docker rename keen_einstein mycontainer
 docker rmi --force <ID>
+docker image prune -a #clean unused images
 ```
 
 ## References
