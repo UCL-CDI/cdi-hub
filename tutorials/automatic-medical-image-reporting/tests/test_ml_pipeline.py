@@ -168,7 +168,7 @@ def test_CheXNet_CNN_Dataset():
 
 def test_train_model():
     """
-    Test CheXNet_CNN_Dataset class
+    Test train model pipeline
     pytest -vs tests/test_ml_pipeline.py::test_train_model
 
     References:
