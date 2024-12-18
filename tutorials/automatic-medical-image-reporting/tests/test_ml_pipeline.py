@@ -6,12 +6,11 @@ import yaml
 from amir.utils.datasets import CheXNet_CNN_Dataset
 from amir.utils.utils import display_image, preprocess_text
 from loguru import logger
+from pretrainedmodels import \
+    se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
-from pretrainedmodels import \
-    se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
-
 
 with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
     config_yaml = yaml.load(file, Loader=yaml.FullLoader)
@@ -173,8 +172,8 @@ def test_train_model():
 
     References:
         https://www.kaggle.com/code/esenin/chestxnet2-0
-    """ 
- 
+    """
+
     logger.info(f"Test train_model")
     # Load the pre-trained SENet-154 model
     base_model = se_resnext101_32x4d(pretrained='imagenet')  # Load pre-trained weights
