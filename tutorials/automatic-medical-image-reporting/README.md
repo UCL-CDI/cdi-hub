@@ -2,29 +2,45 @@
 
 ![fig](amir.svg)
 
-## Project details   
-The interpretation and diagnosis of medical images rely on trained radiologists, consisting on reasoning process of visual features and prior knowledge [1].
-To address the challenge of meeting the demand for available experts to interpret medical images, which is labor-intensive task and can lead to delays and misdiagnoses, the emerging field of automatic medical report generation, AMIR, combines computer vision (CV) and natural language processing (NLP).
-Automated interpretation of medical images to generate human-like reports can help alleviate this burden by accelerating diagnosis, especially in situations where experts are unavailable. 
-However, implementing, training, testing, and evaluating models are current real-world challenges. 
-Model outputs must be thoroughly evaluated and meet established standards before being used in clinical settings.
+## Introduction   
+Medical image interpretation and diagnosis depend on trained radiologists, involving the reasoning of visual features combined with prior knowledge [1]. However, this labor-intensive process often results in delays and potential misdiagnoses, underscoring the challenge of meeting the growing demand for expert interpretation. To address this, the emerging field of Automatic Medical Image Reporting (AMIR) integrates computer vision (CV) and natural language processing (NLP) to streamline and enhance the process.
+Automated medical image interpretation, capable of generating human-like reports, can significantly alleviate this burden by expediting diagnoses, particularly in situations where experts are unavailable.
+However, real-world challenges remain, including model implementation, training, testing, and evaluation.
+To ensure safe and effective use in clinical settings, model outputs must undergo rigorous evaluation and meet established standards.
 
 ### Prerequisites
-* **Data request requirements:**    
+<details>
+  <summary> Local and AWS setup </summary>
+
+* [local-setup](docs/local-setup.md)
+* [AWS-setup](docs/aws-services/README.md)
+
+</details>
+
+
+<details>
+  <summary> Data request requirements </summary>
 This project require access to MIMIC-CXR-JPG (~500 GB), chest radiographs with structured labels, containing 377,110 JPG format images and structured labels derived from the 227,827 free-text radiology reports associated with these images [4, 4.1, 4.2, 4.3].
 MIMIC-CXR dataset (~5 TB) which is dicom-based dataset which includes 377,110 images corresponding to 227,835 radiographic studies performed at the Beth Israel Deaconess Medical Center in Boston, MA. [5, 5.1]. 
 We recommend registering on PhysioNet to gain access to the datasets. Please note that you must become a credentialed user on [PhysioNet](https://mimic.mit.edu/docs/gettingstarted/#physionet-credentialing) which might take several business days. 
 In the event of delays in account approvals or limited hard drive space, we can use open access chest X-ray collection from Indiana University, including: 7470 normalized images (14.19 GB), indiana_projections.csv(289.4 kB), indiana_reports.csv(1.68 MB) [6, 6.1]. See further details [here](data).
+</details>
 
-* **Data preparation and cleaning:** 
+
+<details>
+  <summary> Data preparation and cleaning </summary>
 You might like to use [mimic-cxr-jpg-loader](https://github.com/filipepcampos/mimic-cxr-jpg-loader) to load the MIMIC-CXR-JPG Dataset which will also be useful to prepare mimic-cxr-reports.tar.gz. See further details [here](data).
+</details>
 
-* **Software requirements and dependencies:**   
+<details>
+  <summary> Software requirements and dependencies </summary>
 A laptop with a Python [virtual environment configured](https://github.com/astral-sh/uv), including the following libraries: Pandas, PyDicom, and PyTorch.
 Additional Python-based libraries that can be used include: [mimic-cxr-jpg-loader](https://github.com/filipepcampos/mimic-cxr-jpg-loader).
 **NOTE:** Here are some [notebooks](https://github.com/budai4medtech/amir/tree/main/amir/models) that serve as a great starting point for preparing model fine-tuning and evaluation.   
+</details>
 
-* **Hardware and infrastructure specifications:**    
+<details>
+  <summary> Hardware and infrastructure specifications </summary>
   * For laptops without a GPU, consider using Google Colab's free service as an alternative.
     Change runtime by going to `Edit` > `Notebook settings` > `T4 GPU`, resulting in:
     Tesla T4 GPU RAM (TPU) with 15.0 GB memory. System: RAM 12.7 GB. Disk: 112.6GB. 
@@ -32,13 +48,14 @@ Additional Python-based libraries that can be used include: [mimic-cxr-jpg-loade
   * For laptops equipped with a GPU and CUDA drivers:
     * Ensure you have sufficient hard drive space to store data and models.
     * Confirm that your GPU has the necessary CUDA drivers install
+</details>
 
 ### Model training and model evaluation
-1. Train and evaluate Medical Transformer for Chest X-ray Diagnosis and Reporting [7-9]. 
-2. Evaluation tools for image captioning, including BLEU, ROUGE-L, CIDEr, METEOR, SPICE scores [10]. 
+1. Train and evaluate Medical Transformer for Chest X-ray Diagnosis and Reporting [7,8,9,11,12]. 
+2. Evaluation tools for image captioning, including BLEU, ROUGE-L, CIDEr, METEOR, SPICE scores [10,11,12]. 
 
 ### Interface development
-To present reporting results, we recommend developing a Python-based interface using either [Streamlit](https://streamlit.io/) for a web-based solution or a simple command-line interface with [Click](https://click.palletsprojects.com/en/8.1.x/) or another suitable tool.
+To present reporting results, we recommend developing a Python-based interface using either [Streamlit](https://streamlit.io/) for a web-based solution or a simple command-line interface with [Click](https://click.palletsprojects.com/en/8.1.x/) or another suitable tool [12].
 
 ## References  
 
@@ -74,6 +91,10 @@ To present reporting results, we recommend developing a Python-based interface u
 9. https://github.com/farrell236/RATCHET   
 
 10. https://github.com/Aldenhovel/bleu-rouge-meteor-cider-spice-eval4imagecaption 
+
+11. https://aws.amazon.com/blogs/machine-learning/automatically-generate-impressions-from-findings-in-radiology-reports-using-generative-ai-on-aws/
+
+12. https://github.com/aws-samples/llm-radiology-reports
 
 </details>
 
