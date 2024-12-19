@@ -160,10 +160,10 @@ def test_CheXNet_CNN_Dataset():
         display_image(images[0])  # Display the first image in the batch
         break
 
-def test_train_model():
+def test_train_eval_model():
     """
-    Test train model pipeline
-    pytest -vs tests/test_ml_pipeline.py::test_train_model
+    Test train and evaluation of model pipeline
+    pytest -vs tests/test_ml_pipeline.py::test_train_eval_model
 
         TRAIN 1 epoch in CPU
         Epoch [1/1], Loss: 0.9344, Accuracy: 0.5474
