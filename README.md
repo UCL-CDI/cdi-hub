@@ -1,4 +1,8 @@
-# CDI Reference Applications 
+<div style="text-align: center;" align="center">
+  <img src="docs/figs/cdi-hub-banner.svg" alt="real-time ai diagnosis for nystagmus" width="600"/>
+  <h1> :robot: CDI-HUB Reference Applications </h1>
+</div>
+
 This is central repository for CDI Applications, featuring templates, resources, documentation, and more. 
 
 ## Table of contents
