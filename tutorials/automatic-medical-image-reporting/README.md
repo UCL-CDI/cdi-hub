@@ -40,9 +40,6 @@ Additional Python-based libraries that can be used include: [mimic-cxr-jpg-loade
 ### Interface development
 To present reporting results, we recommend developing a Python-based interface using either [Streamlit](https://streamlit.io/) for a web-based solution or a simple command-line interface with [Click](https://click.palletsprojects.com/en/8.1.x/) or another suitable tool.
 
-
-
-
 ## References  
 
 <details>

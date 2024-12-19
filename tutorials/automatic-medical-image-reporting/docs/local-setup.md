@@ -28,7 +28,7 @@ deactivate
 
 ## Install python package deps
 ```
-uv pip install --editable ".[test]" # Install the package in editable mode with test dependencies
+uv pip install --editable ".[test, learning]" # Install the package in editable mode with test and learning dependencies
 uv pip install ."[learning]" # Install learning dependencies
 ```
 
