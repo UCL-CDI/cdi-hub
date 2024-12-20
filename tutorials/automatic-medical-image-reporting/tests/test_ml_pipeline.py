@@ -1,14 +1,21 @@
 import os
+import time
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
 import yaml
 from amir.utils.datasets import CheXNet_CNN_Dataset
 from amir.utils.utils import display_image, preprocess_text
 from loguru import logger
 from pretrainedmodels import \
     se_resnext101_32x4d  # Use SENet-154 from pretrainedmodels
+from sklearn.metrics import f1_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split
+from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
@@ -180,13 +187,6 @@ def test_train_eval_model():
         https://www.kaggle.com/code/esenin/chestxnet2-0
     """
 
-    import time
-
-    import torch
-    import torch.nn as nn
-    import torch.optim as optim
-    from sklearn.metrics import f1_score, precision_score, recall_score
-    from torch.optim import lr_scheduler
 
     # Load the pre-trained SENet-154 model
     base_model = se_resnext101_32x4d(pretrained='imagenet')  # Load pre-trained weights
@@ -220,7 +220,6 @@ def test_train_eval_model():
 
     # Learning rate scheduler
     scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.1, patience=3, min_lr=1e-6)
-
 
 
     # Training function
@@ -290,6 +289,12 @@ def test_train_eval_model():
         print(f'F1 Score (Macro): {f1_score_val:.4f}')
 
     DATASET_PATH = os.path.join(str(Path.home()), config_yaml['ABS_DATA_PATH'])
+
+
+    MODEL_PATH = os.path.join(DATASET_PATH, "models")
+    if not os.path.exists(MODEL_PATH):
+        os.mkdir(MODEL_PATH)
+
 
     df_projections = pd.read_csv( str(DATASET_PATH) + '/indiana_projections.csv')
     df_reports = pd.read_csv( str(DATASET_PATH) + '/indiana_reports.csv')
@@ -392,3 +397,8 @@ def test_train_eval_model():
     end_train_time = time.time()
     elapsedtime = end_train_time - start_train_time
     logger.info(f"Elapsed time for the eval loop: {elapsedtime/60} (mins)")
+
+    current_time_stamp= datetime.now().strftime("%d-%m-%y_%H-%M-%S")
+    path_model_name = MODEL_PATH+"/_weights_" + current_time_stamp + ".pth"
+    torch.save(model.state_dict(), path_model_name)
+    logger.info(f"Saved PyTorch Model State to {path_model_name}")
