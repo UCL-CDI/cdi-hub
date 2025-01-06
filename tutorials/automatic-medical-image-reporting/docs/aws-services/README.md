@@ -7,62 +7,94 @@ The true power of cloud computing lies in its "on-demand" nature, enabling you t
 This approach aligns with the philosophy of ["treating your servers like cattle, not pets"](https://devops.stackexchange.com/questions/653/what-is-the-definition-of-cattle-not-pets), focusing on scalability and disposability rather than individual care and maintenance.
 
 ## Access to UCL cloud
-1. Request AWS access to [Ben Thomas](https://github.com/bathomas)
-2. Open AWS access portal: https://ucl-cloud.awsapps.com/start#/
+* Request AWS access to [Ben Thomas](https://github.com/bathomas)
+* Open AWS access portal: https://ucl-cloud.awsapps.com/start#/
 
-## Accounts in the AWS access portal
-
-### Create security group
-1. you would need to go to your AWS access portal to select your account to and `AWSPowerUserAccess`.
-2. Select zone (e.g. London)
-3. Select [EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)  
-4. Select Network & Security to create a [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html?icmpid=docs_ec2_console#creating-security-group) where you need to choose:
-    * Security group name Info
-    * Security group description 
-    * [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html), 
-    * Select either default or customised [inbound and outbound rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html?icmpid=docs_ec2_console) 
-    * `Create security group`.
-
-### Launch an instance
-Generally, the following steps should be followed. For more details, refer to the information provided [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html?icmpid=docs_ec2_console). 
-1. Name
-2. Select application and OS Images (Amazon Machine Image) 
-3. Instance type
-4. Key pair. Existing key pair, Create a new pair and Proceed without key pair.
-5. Network settings, selecting existing security group.
-
-
-### Delete instance 
-Select instance and terminate (delete instance)
-
-### Connect to instance?
-
-### Launch local instance
-1. Installing or updating to the latest version of the AWS CLI under Ubuntu
+## aws-cli
+* Installing or updating to the latest version of the AWS CLI under Ubuntu. For other OS see [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 ```
 sudo snap install aws-cli --classic
 ```
-2. `aws configure`
-* AWS Access Key ID [None]: :warning: "Where to find it?"
-* AWS Secret Access Key [None]: :warning:  "Where to find it?"
-* Default region name [None]: :warning:  "Where to find it?"
-* Default output format [None]: :warning:  "Where to find it?"
 
-3. To create a Spot Instance request using run-instances
+## Configure aws session following [this reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
+* Configuring IAM Identity Center authentication with the AWS CLI.
 ```
-aws ec2 run-instances \
-    --image-id ami-0abcdef1234567890 \
-    --instance-type t2.micro \
-    --count 5 \
-    --subnet-id subnet-08fc749671b2d077c \
-    --key-name MyKeyPair \
-    --security-group-ids sg-0b0384b66d7d692f9 \
-    --instance-market-options file://spot-options.json
+aws configure sso
+#SSO session name (Recommended): AWSAdministratorAccess-cdi-dev
+#SSO start URL [None]: https://ucl-cloud.awsapps.com/start
+#SSO region [None]: eu-west-2
+#SSO registration scopes [None]: sso:account:access
+#Creating > .aws/config 
 ```
+* Login/logout
+```
+AWS_PROFILE=AWSAdministratorAccess-cdi-dev
+bash aws-login.bash ${AWS_PROFILE}
+#aws sso logout 
+```
+
+## S3 Bucket 
+* Create a bucket 
+```
+BUCKET_NAME=amir-training
+BUCKET_POSTFIX=$(uuidgen --random | cut -d'-' -f1)
+export BUCKET_ROOT=${BUCKET_NAME}-${BUCKET_POSTFIX}
+aws s3 mb s3://${BUCKET_ROOT} --profile ${AWS_PROFILE}
+```
+* Process data in S3 buckets: Upload Data to S3 Bucket URI
+Use aws s3 sync command to copy files. Use --dryrun to check what files are going to be copied 
+```
+#cd datapath
+aws s3 sync . s3://amir-training-b70c6730 --dryrun --profile ${AWS_PROFILE} 
+```
+* List files 
+```
+aws s3 ls s3://amir-training-b70c6730 --profile ${AWS_PROFILE} 
+``` 
+* Remove files
+```
+aws s3 rm s3://amir-training-b70c6730/1_IM-0001-3001.dcm.png --profile ${AWS_PROFILE}
+```
+
+## Batch workflow
+![alt text](batch-aws.png)
+
+
+### Elastic Compute Cloud (Amazon EC2) orchestration using [this reference](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
+
+### Created compute environment 
+```
+* Configure job and orchestration type
+  #Enable using Spot instances[can be interrupted with a two minute notification when EC2], 
+  #VPC [aws-controltower-vpc]; 
+* Create a compute environment
+* Create a job queue
+  #setup security group [BatchEnvironmentDefaultSG]; 
+* Create a job definition
+  #Create a job definition [Container configuration; No commands]) > amir-training-ec2-compute-env
+* Create a job
+```
+
+### Build and Upload container to the ECR
+```
+#cd Docker image location
+REPOSITORY_NAME="cdi-hub/aws-samples" 
+AWS_REGION=eu-west-2 
+IMAGE_ID=`aws ecr describe-repositories --repository-names ${REPOSITORY_NAME} --output text --query 'repositories[0].[repositoryUri]' --region $AWS_REGION --profile ${AWS_PROFILE}` 
+docker build -t ${IMAGE_ID}:latest . 
+aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin "${IMAGE_ID}"  
+docker push ${IMAGE_ID}:latest 
+```
+
+### Elastic Container Registry
+* Pricing Storage settings https://calculator.aws/#/
+15 GB per month x 0.10 USD = 1.50 USD. Elastic Container Registry pricing (monthly): 1.50 USD
+* Elastic Container Service
+
 
 ## References
 * Launch an Ubuntu EC2 instance using the AWS CLI: https://documentation.ubuntu.com/aws/en/latest/aws-how-to/instances/launch-ubuntu-ec2-instance/
 * Create a Spot Instance request: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html
-
+* Kumar, Nagresh, and Sanjay Kumar Sharma. "A Cost-Effective and Scalable Processing of Heavy Workload with AWS Batch." International Journal of Electrical and Electronics Research 10, no. 2 (2022): 144-149. [[PDF]](https://ijeer.forexjournal.co.in/papers-pdf/ijeer-100216.pdf) [[google-citations]](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=A+Cost-Effective+and+Scalable+Processing+of+Heavy+Workload+with+AWS+Batch++&btnG=)
 
 
