@@ -42,8 +42,8 @@ uv pip install -e ".[test,learning]"
 ```
 cd ~/cdi-hub/tutorials/automated-multimodal-medical-image-reporting
 source .venv/bin/activate 
-python src/amir/apis/data-preprocessing.py
-python src/amir/apis/train_model.py
+pytest -vs tests/test_ml_pipeline.py::test_CheXNet_CNN_Dataset
+pytest -vs tests/test_ml_pipeline.py::test_train_eval_model
 ```
 
 ## Pre-commit

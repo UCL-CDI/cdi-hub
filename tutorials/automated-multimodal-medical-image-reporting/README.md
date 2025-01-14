@@ -1,14 +1,46 @@
 # End-to-End AI Workflow for Automated Multimodal Medical Image Reporting (AMMIR)
 
-![fig](amir.svg)
+![fig](docs/figures/ammir.svg)
 
-## Introduction   
+AMMIR is a python project designed as a template to benchmark end-to-end AI workflows, covering aspects such as model development, testing, training, and evaluation across both local and cloud platforms like Amazon Web Services. It also incorporates best software practices, aiming to align with medical software standards (ISO 62304).
+
+## :nut_and_bolt: Installation
+### :wrench: Dev installation
+```
+uv venv --python 3.12 # Create a virtual environment at .venv.
+source .venv/bin/activate #To activate the virtual environment
+uv pip install -e ".[test,learning]" # Install the package in editable mode
+uv pip list --verbose #check versions
+pre-commit run -a #pre-commit hooks
+```
+See further details for installation [here](docs).
+
+### :recycle: Model development 
+Script to perform [unit_test_simple_ml_pipeline](script/unit_test_ml_pipeline.bash) based on [test_ml_pipeline](tests/test_ml_pipeline.py)
+```
+bash scripts/unit_test_ml_pipeline.bash
+```
+
+## Content   
+
+<details>
+  <summary> Summary </summary>
 Medical image interpretation and diagnosis depend on trained radiologists, involving the reasoning of visual features combined with prior knowledge [1]. However, this labor-intensive process often results in delays and potential misdiagnoses, underscoring the challenge of meeting the growing demand for expert interpretation. To address this, the emerging field of Automatic Medical Image Reporting (AMIR) integrates computer vision (CV) and natural language processing (NLP) to streamline and enhance the process.
 Automated medical image interpretation, capable of generating human-like reports, can significantly alleviate this burden by expediting diagnoses, particularly in situations where experts are unavailable.
 However, real-world challenges remain, including model implementation, training, testing, and evaluation.
 To ensure safe and effective use in clinical settings, model outputs must undergo rigorous evaluation and meet established standards.
 
-### Prerequisites
+
+### Model training and model evaluation
+1. Train and evaluate Medical Transformer for Chest X-ray Diagnosis and Reporting [7,8,9,11,12]. 
+2. Evaluation tools for image captioning, including BLEU, ROUGE-L, CIDEr, METEOR, SPICE scores [10,11,12]. 
+
+
+### Interface development
+To present reporting results, we recommend developing a Python-based interface using either [Streamlit](https://streamlit.io/) for a web-based solution or a simple command-line interface with [Click](https://click.palletsprojects.com/en/8.1.x/) or another suitable tool [12].
+
+</details>
+
 <details>
   <summary> Local and AWS setup </summary>
 
@@ -50,14 +82,6 @@ Additional Python-based libraries that can be used include: [mimic-cxr-jpg-loade
     * Confirm that your GPU has the necessary CUDA drivers install
 </details>
 
-### Model training and model evaluation
-1. Train and evaluate Medical Transformer for Chest X-ray Diagnosis and Reporting [7,8,9,11,12]. 
-2. Evaluation tools for image captioning, including BLEU, ROUGE-L, CIDEr, METEOR, SPICE scores [10,11,12]. 
-
-### Interface development
-To present reporting results, we recommend developing a Python-based interface using either [Streamlit](https://streamlit.io/) for a web-based solution or a simple command-line interface with [Click](https://click.palletsprojects.com/en/8.1.x/) or another suitable tool [12].
-
-## References  
 
 <details>
   <summary>Click to see references</summary>
