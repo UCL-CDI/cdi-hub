@@ -1,4 +1,4 @@
-# Automatic medical image reporting (AMIR)
+# End-to-End AI Workflow for Automated Multimodal Medical Image Reporting (AMMIR)
 
 ![fig](amir.svg)
 

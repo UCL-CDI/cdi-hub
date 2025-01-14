@@ -16,7 +16,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## Create venv
 ```
-cd ~/cdi-hub/tutorials/automatic-medical-image-reporting
+cd ~/cdi-hub/tutorials/automated-multimodal-medical-image-reporting
 uv venv --python 3.12 # Create a virtual environment at .venv.
 ```
 
@@ -40,7 +40,7 @@ uv pip install -e ".[test,learning]"
 
 ## Testing 
 ```
-cd ~/cdi-hub/tutorials/automatic-medical-image-reporting
+cd ~/cdi-hub/tutorials/automated-multimodal-medical-image-reporting
 source .venv/bin/activate 
 python src/amir/apis/data-preprocessing.py
 python src/amir/apis/train_model.py

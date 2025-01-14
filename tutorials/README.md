@@ -11,8 +11,8 @@ The following tutorials provide both local and AWS setups to implement best prac
 
 This structured approach fosters efficient, maintainable, and scalable workflows!
 
-## Automatic medical image reporting (amir)
-This project leverages multimodal data, combining X-rays and doctors' reports, to predict diseases in unseen X-ray datasets. It is designed for both local execution and integration with AWS services. For more details, see [automatic-medical-image-reporting](automatic-medical-image-reporting).
+## End-to-End AI Workflow for Automated Multimodal Medical Image Reporting (AMMIR)
+This project leverages multimodal data, combining X-rays and doctors' reports, to predict diseases in unseen X-ray datasets. It is designed for both local execution and integration with AWS services. For more details, see [End-to-End AI Workflow for Automated Multimodal Medical Image Reporting](automated-multimodal-medical-image-reporting).
 
 ## References
 
