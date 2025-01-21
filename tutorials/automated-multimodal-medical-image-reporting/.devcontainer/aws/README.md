@@ -22,20 +22,12 @@ bash aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
 ```
 
-### Created Elastic Compute Cloud (Amazon EC2) orchestration 
-https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#wizard
+### Create job defiction
 
-```
-* Configure job and orchestration type
-  #Enable using Spot instances[can be interrupted with a two minute notification when EC2], 
-  #VPC [aws-controltower-vpc]; 
-* Create a compute environment
-* Create a job queue
-  #setup security group [BatchEnvironmentDefaultSG]; 
-* Create a job definition
-  #Create a job definition [Container configuration; No commands]) > amir-training-ec2-compute-env
-* Create a job
-```
+https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new
+
+Generating [registerjob.yaml](configs/registerjob.yaml)
+
 
 ### Build and Upload container to the ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
 ```
