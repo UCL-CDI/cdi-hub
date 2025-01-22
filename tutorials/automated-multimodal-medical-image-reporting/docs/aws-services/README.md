@@ -37,20 +37,6 @@ bash aws-login.bash ${AWS_PROFILE}
 
 See further details [here](../../.devcontainer/aws)
 
-### Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html)
-
-### Created compute environment 
-```
-* Configure job and orchestration type
-  #Enable using Spot instances[can be interrupted with a two minute notification when EC2], 
-  #VPC [aws-controltower-vpc]; 
-* Create a compute environment
-* Create a job queue
-  #setup security group [BatchEnvironmentDefaultSG]; 
-* Create a job definition
-  #Create a job definition [Container configuration; No commands]) > amir-training-ec2-compute-env
-* Create a job
-```
 
 ### Build and Upload container to the ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
 ```

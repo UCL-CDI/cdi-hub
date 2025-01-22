@@ -1,4 +1,4 @@
-# aws docker entry point
+# AWS Batch
 
 ![alt text](../../docs/aws-services/batch-aws.png)
 
@@ -6,6 +6,25 @@
 ```
 bash ../scripts/aws-login.bash 
 ```
+
+## Settting up Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html) [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#wizard)
+1. Configure job and orchestration
+    #Enable using Spot instances[can be interrupted with a two minute notification when EC2]
+    #VPC [aws-controltower-vpc]; 
+2. Create compute environment. Name: ammir-ec2-comp-env
+3. Create a job queue. Name:  getting-started-ec2-job-queue-ammir
+    #setup security group [BatchEnvironmentDefaultSG]; 
+4. Create a job definition. Name: getting-started-ec2-job-definition-ammir
+    Container: public.ecr.aws/amazonlinux/amazonlinux:latest    
+    Container configuration; No commands
+5. Create a job. Name: getting-started-ec2-job-ammir
+6. Review and create
+7. Confirmation of creation 
+    Compute environment: ammir-ec2-comp-env 
+    Job queue: getting-started-ec2-job-queue-ammir 
+    Job definition: getting-started-ec2-job-definition-ammir 
+    Job: getting-started-ec2-job-ammir 
+
 
 ## setup docker images
 ### Build
