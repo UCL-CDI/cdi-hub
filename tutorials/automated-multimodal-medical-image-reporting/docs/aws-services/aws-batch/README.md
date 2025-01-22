@@ -2,6 +2,11 @@
 
 ![alt text](../../docs/aws-services/batch-aws.png)
 
+* Log in
+```
+bash ../scripts/aws-login.bash 
+```
+
 ## setup docker images
 ### Build
 ```
@@ -24,7 +29,7 @@ bash ../../docs/aws-services/aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
 ```
 
-### Create job defiction [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new) 
+### Create job definition [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new) 
 Generating [registerjob.yaml](configs/registerjob.yaml)
 ```
 REPOSITORY_NAME="cdi-hub/test-container" 
@@ -41,6 +46,11 @@ aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | doc
 docker push ${IMAGE_ID}:latest 
 ```
 
+## Triggering job
+* To list the images in a repository [:link:](https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html)
+```
+aws ecr list-images --repository-name ${REPOSITORY_NAME} --region $AWS_REGION --profile ${AWS_PROFILE}
+```
 
 
 ## Blurs

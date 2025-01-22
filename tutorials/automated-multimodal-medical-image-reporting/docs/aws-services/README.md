@@ -33,34 +33,11 @@ bash aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
 ```
 
-## S3 Bucket 
-* Create a bucket 
-```
-BUCKET_NAME=amir-training
-BUCKET_POSTFIX=$(uuidgen --random | cut -d'-' -f1)
-export BUCKET_ROOT=${BUCKET_NAME}-${BUCKET_POSTFIX}
-aws s3 mb s3://${BUCKET_ROOT} --profile ${AWS_PROFILE}
-```
-* Process data in S3 buckets: Upload Data to S3 Bucket URI
-Use aws s3 sync command to copy files. Use --dryrun to check what files are going to be copied 
-```
-#cd datapath
-aws s3 sync . s3://amir-training-b70c6730 --dryrun --profile ${AWS_PROFILE} 
-```
-* List files 
-```
-aws s3 ls s3://amir-training-b70c6730 --profile ${AWS_PROFILE} 
-``` 
-* Remove files
-```
-aws s3 rm s3://amir-training-b70c6730/1_IM-0001-3001.dcm.png --profile ${AWS_PROFILE}
-```
-
 ## Batch workflow
 
 See further details [here](../../.devcontainer/aws)
 
-### Elastic Compute Cloud (Amazon EC2) orchestration using [this reference](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
+### Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html)
 
 ### Created compute environment 
 ```
@@ -75,7 +52,7 @@ See further details [here](../../.devcontainer/aws)
 * Create a job
 ```
 
-### Build and Upload container to the ECR
+### Build and Upload container to the ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
 ```
 #cd Docker image location
 REPOSITORY_NAME="cdi-hub/aws-samples" 
