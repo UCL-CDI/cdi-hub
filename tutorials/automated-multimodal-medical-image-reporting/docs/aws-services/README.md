@@ -1,22 +1,25 @@
-# Setting up AWS
+# AWS Services
 
-## Intro
+## Introduction
 A common approach to working with AWS involves first creating resources manually through the AWS Management Console for experimentation and validation. 
 Once the setup is understood and tested, the process is automated using AWS CLI or Infrastructure as Code (IaC) tools such as CloudFormation, AWS CDK, or Terraform.
+
 The true power of cloud computing lies in its "on-demand" nature, enabling you to easily create and delete resources as needed. 
 This approach aligns with the philosophy of ["treating your servers like cattle, not pets"](https://devops.stackexchange.com/questions/653/what-is-the-definition-of-cattle-not-pets), focusing on scalability and disposability rather than individual care and maintenance.
 
-## Access to UCL cloud
+## Setting up 
+
+### Access to AWS access 
 * Request AWS access to [Ben Thomas](https://github.com/bathomas)
 * Open AWS access portal: https://ucl-cloud.awsapps.com/start#/
 
-## aws-cli
+### aws-cli
 * Installing or updating to the latest version of the AWS CLI under Ubuntu. For other OS see [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 ```
 sudo snap install aws-cli --classic
 ```
 
-## Configure aws session following [this reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
+### Configure aws session following [this reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
 * Configuring IAM Identity Center authentication with the AWS CLI.
 ```
 aws configure sso
@@ -33,26 +36,15 @@ bash aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
 ```
 
-## Batch workflow
+### Setup workflow
+1. [aws-batch](aws-bath)
+2. [aws-s3-bucket](aws-s3-bucket)
 
-See further details [here](../../.devcontainer/aws)
 
-
-### Build and Upload container to the ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
-```
-#cd Docker image location
-REPOSITORY_NAME="cdi-hub/aws-samples" 
-AWS_REGION=eu-west-2 
-IMAGE_ID=`aws ecr describe-repositories --repository-names ${REPOSITORY_NAME} --output text --query 'repositories[0].[repositoryUri]' --region $AWS_REGION --profile ${AWS_PROFILE}` 
-docker build -t ${IMAGE_ID}:latest . 
-aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin "${IMAGE_ID}"  
-docker push ${IMAGE_ID}:latest 
-```
-
-### Elastic Container Registry
-* Pricing Storage settings https://calculator.aws/#/
+### Cost 
+* Elastic Container Registry
+  * Pricing Storage settings https://calculator.aws/#/
 15 GB per month x 0.10 USD = 1.50 USD. Elastic Container Registry pricing (monthly): 1.50 USD
-* Elastic Container Service
 
 
 ## References

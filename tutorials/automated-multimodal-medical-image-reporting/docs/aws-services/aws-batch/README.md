@@ -1,7 +1,8 @@
 # AWS Batch
 
-![alt text](../../docs/aws-services/batch-aws.png)
+![alt text](../batch-aws.png)
 
+## Log in with your AWS profile
 * Log in
 ```
 bash ../scripts/aws-login.bash 
@@ -52,6 +53,7 @@ bash ../../docs/aws-services/aws-login.bash ${AWS_PROFILE}
 Generating [registerjob.yaml](configs/registerjob.yaml)
 ```
 REPOSITORY_NAME="cdi-hub/test-container" 
+#REPOSITORY_NAME="cdi-hub/aws-samples"
 AWS_REGION=eu-west-2 
 aws ecr create-repository --repository-name ${REPOSITORY_NAME} --region $AWS_REGION --profile ${AWS_PROFILE} #private by default
 ```
