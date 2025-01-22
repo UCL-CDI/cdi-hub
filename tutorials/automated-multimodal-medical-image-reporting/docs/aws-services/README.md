@@ -57,8 +57,8 @@ aws s3 rm s3://amir-training-b70c6730/1_IM-0001-3001.dcm.png --profile ${AWS_PRO
 ```
 
 ## Batch workflow
-![alt text](batch-aws.png)
 
+See further details [here](../../.devcontainer/aws)
 
 ### Elastic Compute Cloud (Amazon EC2) orchestration using [this reference](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
 
