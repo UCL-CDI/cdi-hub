@@ -1,5 +1,8 @@
 # AWS Services
 
+![alt text](batch-aws.png)
+Fig. Managing batch computing workloads aws EC2, buckes, etc
+
 ## Introduction
 A common approach to working with AWS involves first creating resources manually through the AWS Management Console for experimentation and validation. 
 Once the setup is understood and tested, the process is automated using AWS CLI or Infrastructure as Code (IaC) tools such as CloudFormation, AWS CDK, or Terraform.
@@ -37,8 +40,8 @@ bash aws-login.bash ${AWS_PROFILE}
 ```
 
 ### Setup workflow
-1. [aws-batch](aws-bath)
-2. [aws-s3-bucket](aws-s3-bucket)
+1. [aws-s3-bucket](aws-s3-bucket)
+2. [aws-batch](aws-bath)
 
 
 ### Cost 

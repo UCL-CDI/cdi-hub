@@ -3,6 +3,9 @@
 ```
 bash ../scripts/aws-login.bash 
 ```
+* Log in into your AWS access portal
+Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess: 
+https://ucl-cloud.awsapps.com/start
 
 * Create a bucket 
 ```

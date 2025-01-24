@@ -1,12 +1,16 @@
 # AWS Batch
 
-![alt text](../batch-aws.png)
 
 ## Log in with your AWS profile
 * Log in
 ```
 bash ../scripts/aws-login.bash 
 ```
+
+## Log in into your AWS access portal
+Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess: 
+https://ucl-cloud.awsapps.com/start
+
 
 ## Settting up Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html) [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#wizard)
 1. Configure job and orchestration
