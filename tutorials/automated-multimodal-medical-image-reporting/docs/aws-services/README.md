@@ -42,7 +42,7 @@ bash aws-login.bash ${AWS_PROFILE}
 
 ### Setup workflow
 1. [aws-s3-bucket](aws-s3-bucket)
-2. [aws-batch](aws-bath)
+2. [aws-batch](aws-batch)
 
 
 ### Cost 

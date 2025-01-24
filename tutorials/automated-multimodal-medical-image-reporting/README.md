@@ -45,7 +45,7 @@ To present reporting results, we recommend developing a Python-based interface u
   <summary> Local and AWS setup </summary>
 
 * [local-setup](docs/local-setup.md)
-* [AWS-setup](docs/aws-services/README.md)
+* [AWS-setup](docs/aws-services)
 
 </details>
 
