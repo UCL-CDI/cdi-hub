@@ -1,5 +1,7 @@
 # AWS Services
 
+![alt text](aws-workflow.svg)   
+
 ## Introduction
 A common approach to working with AWS involves first creating resources manually through the AWS Management Console for experimentation and validation. 
 Once the setup is understood and tested, the process is automated using AWS CLI or Infrastructure as Code (IaC) tools such as CloudFormation, AWS CDK, or Terraform.
@@ -7,8 +9,6 @@ Once the setup is understood and tested, the process is automated using AWS CLI 
 The true power of cloud computing lies in its "on-demand" nature, enabling you to easily create and delete resources as needed. 
 This approach aligns with the philosophy of ["treating your servers like cattle, not pets"](https://devops.stackexchange.com/questions/653/what-is-the-definition-of-cattle-not-pets), focusing on scalability and disposability rather than individual care and maintenance.
 
-![alt text](batch-aws.png)   
-Fig. Managing batch computing workloads aws EC2, buckes, etc
 
 
 ## Setting up 
