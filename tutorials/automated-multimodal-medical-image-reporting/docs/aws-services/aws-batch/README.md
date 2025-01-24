@@ -1,6 +1,5 @@
 # AWS Batch
 
-
 ## Log in with your AWS profile
 * Log in
 ```
@@ -8,28 +7,27 @@ bash ../scripts/aws-login.bash
 ```
 
 ## Log in into your AWS access portal
-Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess: 
+Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess:    
 https://ucl-cloud.awsapps.com/start
 
 
 ## Settting up Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html) [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#wizard)
-1. Configure job and orchestration
+1. Configure job and orchestration   
     #Enable using Spot instances[can be interrupted with a two minute notification when EC2]
     #VPC [aws-controltower-vpc]; 
-2. Create compute environment. Name: ammir-ec2-comp-env
-3. Create a job queue. Name:  getting-started-ec2-job-queue-ammir
+2. Create compute environment. Name: ammir-ec2-comp-env   
+3. Create a job queue. Name:  getting-started-ec2-job-queue-ammir   
     #setup security group [BatchEnvironmentDefaultSG]; 
-4. Create a job definition. Name: getting-started-ec2-job-definition-ammir
+4. Create a job definition. Name: getting-started-ec2-job-definition-ammir   
     Container: public.ecr.aws/amazonlinux/amazonlinux:latest    
     Container configuration; No commands
-5. Create a job. Name: getting-started-ec2-job-ammir
-6. Review and create
-7. Confirmation of creation 
+5. Create a job. Name: getting-started-ec2-job-ammir    
+6. Review and create   
+7. Confirmation of creation    
     Compute environment: ammir-ec2-comp-env 
     Job queue: getting-started-ec2-job-queue-ammir 
     Job definition: getting-started-ec2-job-definition-ammir 
     Job: getting-started-ec2-job-ammir 
-
 
 ## setup docker images
 ### Build
@@ -47,10 +45,20 @@ bash ../stop_container_and_removeit.bash
 ```
 
 ## aws
+* login
 ```
 AWS_PROFILE=AWSAdministratorAccess-cdi-dev
 bash ../../docs/aws-services/aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
+```
+
+
+## Config settings
+See [aws-settings.yaml](../configs/aws-settings.yaml).
+```
+AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
+REPOSITORY_NAME="cdi-hub/test-container"
+AWS_REGION="eu-west-2"
 ```
 
 ### Create job definition [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new) 
@@ -74,7 +82,7 @@ docker push ${IMAGE_ID}:latest
 ## Triggering job
 * To list the images in a repository [:link:](https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html)
 ```
-aws ecr list-images --repository-name ${REPOSITORY_NAME} --region $AWS_REGION --profile ${AWS_PROFILE}
+aws ecr list-images --repository-name ${REPOSITORY_NAME} --region ${AWS_REGION} --profile ${AWS_PROFILE}
 ```
 
 
