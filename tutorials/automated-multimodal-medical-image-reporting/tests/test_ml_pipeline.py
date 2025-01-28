@@ -39,6 +39,14 @@ with open(str(Path().absolute())+"/tests/config_test.yml", "r") as file:
     config_yaml = yaml.load(file, Loader=yaml.FullLoader)
 
 
+def test_gpu_availability():
+    torch.cuda.is_available()
+    logger.info(f"GPU availability: {torch.cuda.is_available()}")
+    logger.info(f"GPU count: {torch.cuda.device_count()}")
+    logger.info(f"GPU name: {torch.cuda.get_device_name(0)}")
+    assert torch.cuda.is_available() == True, f"Expected GPU availability"
+
+
 def test_CheXNet_CNN_Dataset():
     """
     Test CheXNet_CNN_Dataset class
@@ -188,16 +196,19 @@ def test_train_eval_model():
     Test train and evaluation of model pipeline
     pytest -vs tests/test_ml_pipeline.py::test_train_eval_model
 
-        TRAIN 1 epoch in CPU
+        TRAIN 1 epoch in GPU
         Epoch [1/1], Loss: 0.9344, Accuracy: 0.5474
-        Elapsed time for the training loop: 5.300666999816895 (mins)
+        Elapsed time for the training loop: 6-ish (mins)
 
-        EVAL 1 epoch in CPU
+        EVAL 1 epoch in GPU
         Test Accuracy: 0.5801
         Precision (Macro): 0.3852
         Recall (Macro): 0.4343
         F1 Score (Macro): 0.4074
-        Elapsed time for the eval loop: 1.2158390720685324 (mins)
+        Elapsed time for the eval loop: 1.5-ish (mins)
+
+        MODEL SAVED
+        └── [180M]  _weights_[%d-%m-%y_%H-%M-%S].pth
 
     References:
         https://www.kaggle.com/code/esenin/chestxnet2-0
