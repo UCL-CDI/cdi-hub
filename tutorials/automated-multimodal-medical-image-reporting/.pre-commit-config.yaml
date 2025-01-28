@@ -28,7 +28,7 @@ repos:
         exclude: 'data/.*|docs/.*'
         exclude_types: [markdown]
     -   id: check-yaml
-        exclude: '.github/workflows/.*|docs/aws-services/*'
+        exclude: '.github/workflows/.*|docs/aws-services/.*'
     -   id: check-added-large-files
   - repo: local
     hooks:

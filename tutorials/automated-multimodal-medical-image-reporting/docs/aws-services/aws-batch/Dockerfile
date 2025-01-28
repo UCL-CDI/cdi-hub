@@ -1,9 +1,9 @@
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
 
-#RUN yum install -y git python-pip curl jq
-#RUN pip install --upgrade awscli
+# RUN yum install -y git python-pip curl jq
+# RUN pip install --upgrade awscli
 
-WORKDIR workdir
+WORKDIR workspace
 COPY scripts/entrypoint.bash /usr/local/bin/entrypoint.bash
 RUN chmod +x /usr/local/bin/entrypoint.bash
 

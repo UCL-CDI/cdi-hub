@@ -1,15 +1,13 @@
 # AWS Batch
 
+## Log in into your AWS access portal
+Go to https://ucl-cloud.awsapps.com/start and select either `cdi-innov-dev` or `arc-playpen-collaborations` to launch AWSAdministratorAccess
+
 ## Log in with your AWS profile
 * Log in
 ```
 bash ../scripts/aws-login.bash 
 ```
-
-## Log in into your AWS access portal
-Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess:    
-https://ucl-cloud.awsapps.com/start
-
 
 ## Settting up Elastic Compute Cloud (Amazon EC2) orchestration [:link:](https://docs.aws.amazon.com/batch/latest/userguide/getting-started-ec2.html) [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#wizard)
 1. Configure job and orchestration   
@@ -41,14 +39,14 @@ docker compose -f docker-compose.yml build #Building estimated time
 
 ### Stop container and remove it
 ```
-bash ../stop_container_and_removeit.bash
+bash ../scripts/stop_container_and_removeit.bash
 ```
 
 ## aws
 * login
 ```
 AWS_PROFILE=AWSAdministratorAccess-cdi-dev
-bash ../../docs/aws-services/aws-login.bash ${AWS_PROFILE}
+bash ../scripts/aws-login.bash ${AWS_PROFILE}
 #aws sso logout 
 ```
 
@@ -58,16 +56,16 @@ See [aws-settings.yaml](../configs/aws-settings.yaml).
 ```
 AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
 REPOSITORY_NAME="cdi-hub/test-container"
+#REPOSITORY_NAME="cdi-hub/aws-samples"
 AWS_REGION="eu-west-2"
 ```
 
 ### Create job definition [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new) 
 Generating [registerjob.yaml](configs/registerjob.yaml)
 ```
-REPOSITORY_NAME="cdi-hub/test-container" 
-#REPOSITORY_NAME="cdi-hub/aws-samples"
-AWS_REGION=eu-west-2 
-aws ecr create-repository --repository-name ${REPOSITORY_NAME} --region $AWS_REGION --profile ${AWS_PROFILE} #private by default
+aws ecr create-repository --repository-name ${REPOSITORY_NAME} --region $AWS_REGION --profile ${AWS_PROFILE} 
+#private by default
+#The repository with name 'cdi-hub/test-container' already exists in the registry with id '975050006673'
 ```
 
 ### Build and Upload container to the ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
