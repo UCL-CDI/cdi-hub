@@ -7,7 +7,7 @@ The following tutorials provide both local and AWS setups to implement best prac
 3. Unit tests with pytest: Enables robust testing for data processing, model selection, training, inference, and evaluation, aligning with the FDA's Good Machine Learning Practices (FDA 2021).
 4. Documentation (docs, CONTRIBUTING, CODE_OF_CONDUCT): Provides guidance for setup and requirements, outlines contribution protocols, and establishes a code of conduct to foster effective collaboration.
 5. Datasets (datasets): Manages data policies, preparation, and preprocessing needs.
-6. Source folder (src): Organizes APIs, models, and utilities for clarity and scalability.
+6. Source folder (src): Organises APIs, models, and utilities for clarity and scalability.
 
 This structured approach fosters efficient, maintainable, and scalable workflows!
 
