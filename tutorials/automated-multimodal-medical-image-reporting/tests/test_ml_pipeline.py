@@ -1,4 +1,5 @@
-#  Copyright (c) University College London
+# SPDX-FileCopyrightText: Copyright (c) University College London. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,7 +12,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-#
+"""unit test for data and ml workflow"""
+
 import os
 import time
 from datetime import datetime
