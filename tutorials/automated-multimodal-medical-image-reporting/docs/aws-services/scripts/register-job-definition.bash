@@ -1,17 +1,21 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-# Create security group for Batch jobs
+SCRIPT_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd $SCRIPT_PATH/../
+MAINPATH=$PWD
+
+# Set environment variables
 export AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
 export REPOSITORY_NAME="cdi-hub/awsbatch-demo"
-export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export AWS_REGION="eu-west-2"
-PATH_TO_JOB_DEFINITION="../aws-batch/configs/job-definition.json" #TOTEST
+PATH_TO_JOB_DEFINITION=file://${MAINPATH}/aws-batch/configs/job-definition.json
 
 aws batch register-job-definition \
     --job-definition-name "cdi-fargate-job-def" \
     --platform-capabilities FARGATE \
     --type container \
-    --container-properties ${PATH_TO_JOB_DEFINITION} \ 
+    --container-properties ${PATH_TO_JOB_DEFINITION}
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
+

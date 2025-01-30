@@ -1,3 +1,5 @@
+
+# Set environment variables
 export AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
 export AWS_REGION="eu-west-2"
 export REPOSITORY_NAME="cdi-hub/awsbatch-demo"

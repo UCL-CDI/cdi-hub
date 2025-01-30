@@ -10,7 +10,7 @@
         ],
         "executionRoleArn": "arn:aws:iam::975050006673:role/ecsTaskExecutionRole",
         "networkConfiguration": {
-            "assignPublicIp": "ENABLED" // Set to ENABLED if using public subnets
+            "assignPublicIp": "ENABLED"
         }
     }
 }

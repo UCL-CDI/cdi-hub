@@ -11,6 +11,6 @@
         "executionRoleArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole",
         "networkConfiguration": {
             "assignPublicIp": "ENABLED" // Set to ENABLED if using public subnets
-        }
+        },
     }
 }

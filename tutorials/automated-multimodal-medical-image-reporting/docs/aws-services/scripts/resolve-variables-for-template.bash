@@ -1,7 +1,7 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-# Create security group for Batch jobs
+# Set environment variables
 export AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
 export REPOSITORY_NAME="cdi-hub/awsbatch-demo"
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)

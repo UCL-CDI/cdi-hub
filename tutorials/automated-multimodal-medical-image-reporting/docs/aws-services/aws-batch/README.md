@@ -30,12 +30,13 @@ This setup uses:
 Go to https://ucl-cloud.awsapps.com/start and select either `cdi-innov-dev` or `arc-playpen-collaborations` to launch AWSAdministratorAccess
 
 ### Log in with your AWS profile
-* Log in
+* Log in using [aws-config-login.bash](../scripts/aws-config-login.bash)
 ```bash
 bash ../scripts/aws-config-login.bash
 ```
 
 ### Create ECR Repository [:link:](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#job-definition/ec2/new) 
+[create-repository.bash](../scripts/create-repository.bash)
 ```bash
 bash ../scripts/create-repository.bash
 ```
@@ -56,7 +57,7 @@ docker images
 ```
 
 ### Local container testing
-Before deploying to AWS Batch, test your container locally:
+Before deploying to AWS Batch, test your container locally using [launch_and_test_docker_image_locally.bash](../scripts/launch_and_test_docker_image_locally.bash)
 ```bash
 bash ../scripts/launch_and_test_docker_image_locally.bash
 ```
@@ -66,12 +67,13 @@ docker ps -as
 ```
 
 ### Stop container and remove it
+[stop_container_and_removeit.bash](../scripts/stop_container_and_removeit.bash)
 ```bash
 bash ../scripts/stop_container_and_removeit.bash
 ```
 
 ### Push to ECR [:link:](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
-See [aws-settings.yaml](../configs/aws-settings.yaml).
+[push_image_to_ecr.bash](../scripts/push_image_to_ecr.bash) that creates [aws-settings.yaml](../configs/aws-settings.yaml).
 ```bash
 bash ../scripts/push_image_to_ecr.bash
 ```
@@ -87,7 +89,7 @@ Before creating the compute environment, ensure you have:
   - Public subnets with Internet Gateway
 - Security groups configured for your workload
 
-* Get your VPC ID and subnet IDs
+* Get your VPC ID and subnet IDs using [vpcs-subnets.bash](../scripts/vpcs-subnets.bash )
 ```bash
 bash ../scripts/vpcs-subnets.bash 
 ```
@@ -110,27 +112,25 @@ bash ../scripts/create-job-queue.bash
 ```
 
 ### Create Job Definition
-* Generate the final JSON with resolved variables using [`job-definition.template.json`](configs/job-definition.template.json)
+* Generate the final JSON with resolved variables using [`job-definition.template.json`](configs/job-definition.template.json) where `assignPublicIp` is set to ENABLED if using public subnets.
 ```bash 
 bash ../scripts/resolve-variables-for-template.bash
 ```
 
-* Register the job definition [:link:](https://docs.aws.amazon.com/batch/latest/userguide/when-to-use-fargate.html)
+* Register the job definition using [register-job-definition.bash](../scripts/register-job-definition.bash) with using [`job-definition.json`](configs/job-definition.json) [:link:](https://docs.aws.amazon.com/batch/latest/userguide/when-to-use-fargate.html)
 ```bash
 bash ../scripts/register-job-definition.bash
 ```
 
-:nut_and_bolt: :nut_and_bolt: :nut_and_bolt: :nut_and_bolt:
+:traffic_light:
+> Parameter validation failed:
+Unknown parameter in containerProperties: "containerProperties", must be one of: image, vcpus, memory, command, jobRoleArn, executionRoleArn, volumes, environment, mountPoints, readonlyRootFilesystem, privileged, ulimits, user, instanceType, resourceRequirements, linuxParameters, logConfiguration, secrets, networkConfiguration, fargatePlatformConfiguration, ephemeralStorage, runtimePlatform, repositoryCredentials
+
 
 ## Job Management 
 ### Submit a Job
 ```bash
-aws batch submit-job \
-    --job-name batch-demo-$(date +%Y%m%d-%H%M%S) \
-    --job-queue cdi-fargate-queue \
-    --job-definition cdi-fargate-job-def \
-    --profile ${AWS_PROFILE} \
-    --region ${AWS_REGION}
+bash ../scripts/submit-job.bash
 ```
 ### Monitor Job Status
 ```bash

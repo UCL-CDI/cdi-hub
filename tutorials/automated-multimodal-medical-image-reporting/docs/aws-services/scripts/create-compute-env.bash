@@ -1,7 +1,7 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-# Create security group for Batch jobs
+# Set environment variables
 export AWS_PROFILE="AWSAdministratorAccess-cdi-dev"
 export AWS_REGION="eu-west-2"
 export SECURITY_GROUPID="sg-0b06fbe2a4f1e1cf2"
