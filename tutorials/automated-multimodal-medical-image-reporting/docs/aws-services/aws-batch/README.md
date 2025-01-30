@@ -122,7 +122,7 @@ bash ../scripts/resolve-variables-for-template.bash
 bash ../scripts/register-job-definition.bash
 ```
 
-:traffic_light:
+:warning:
 > Parameter validation failed:
 Unknown parameter in containerProperties: "containerProperties", must be one of: image, vcpus, memory, command, jobRoleArn, executionRoleArn, volumes, environment, mountPoints, readonlyRootFilesystem, privileged, ulimits, user, instanceType, resourceRequirements, linuxParameters, logConfiguration, secrets, networkConfiguration, fargatePlatformConfiguration, ephemeralStorage, runtimePlatform, repositoryCredentials
 
