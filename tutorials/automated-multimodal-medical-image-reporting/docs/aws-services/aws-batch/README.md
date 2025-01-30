@@ -163,7 +163,8 @@ aws logs get-log-events \
 - Check CloudWatch logs for errors
 
 ## Cleanup
-### Remove Resources
+### Remove resources
+* [cleanup.bash](../scripts/cleanup.bash)
 ```bash
 bash ../scripts/cleanup.bash
 ```
