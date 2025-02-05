@@ -27,7 +27,7 @@ This setup uses:
 ## Initial Setup
 
 ### Log in into your AWS access portal
-Go to https://ucl-cloud.awsapps.com/start ang log in into aws access porta to select either `cdi-innov-dev` or `arc-playpen-collaborations` and then launch AWSAdministratorAccess
+Go to https://ucl-cloud.awsapps.com/start ang log in into aws access porta to select either `cdi-innov-dev` or `arc-playpen-collaborations` and then launch AWSAdministratorAccess with zone `eu-west-2`
 
 ### Log in with your AWS profile
 * Log in using [aws-config-login.bash](../scripts/aws-config-login.bash)
@@ -138,6 +138,12 @@ bash ../scripts/iam-attach-role-policy-CloudWatch.bash
 ```
 bash ../scripts/create-log-group.bash 
 ```
+* Job scriptions and updates
+```
+bash ../scripts/describe-job-queues.bash 
+bash ../scripts/update-job-queue.bash
+```
+Check [Job queues](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu-west-2#queues)
 
 
 ## Job Management 
