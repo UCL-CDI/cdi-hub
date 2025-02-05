@@ -122,6 +122,24 @@ bash ../scripts/resolve-variables-for-template.bash
 bash ../scripts/register-job-definition.bash
 ```
 
+* Create the role with trust policy
+```
+bash ../scripts/iam-create-role.bash 
+```
+* Attach the AWS managed policy for ECS Task Execution
+```
+bash ../scripts/iam-attach-role-policy.bash
+```
+* Attach the AWS managed policy for CloudWatch Logs
+```
+bash ../scripts/iam-attach-role-policy-CloudWatch.bash
+```
+* create log group
+```
+bash ../scripts/create-log-group.bash 
+```
+
+
 ## Job Management 
 ### Submit a Job
 ```bash
