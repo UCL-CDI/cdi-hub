@@ -27,7 +27,7 @@ This setup uses:
 ## Initial Setup
 
 ### Log in into your AWS access portal
-Go to https://ucl-cloud.awsapps.com/start and select either `cdi-innov-dev` or `arc-playpen-collaborations` to launch AWSAdministratorAccess
+Go to https://ucl-cloud.awsapps.com/start ang log in into aws access porta to select either `cdi-innov-dev` or `arc-playpen-collaborations` and then launch AWSAdministratorAccess
 
 ### Log in with your AWS profile
 * Log in using [aws-config-login.bash](../scripts/aws-config-login.bash)
@@ -121,11 +121,6 @@ bash ../scripts/resolve-variables-for-template.bash
 ```bash
 bash ../scripts/register-job-definition.bash
 ```
-
-:warning:
-> Parameter validation failed:
-Unknown parameter in containerProperties: "containerProperties", must be one of: image, vcpus, memory, command, jobRoleArn, executionRoleArn, volumes, environment, mountPoints, readonlyRootFilesystem, privileged, ulimits, user, instanceType, resourceRequirements, linuxParameters, logConfiguration, secrets, networkConfiguration, fargatePlatformConfiguration, ephemeralStorage, runtimePlatform, repositoryCredentials
-
 
 ## Job Management 
 ### Submit a Job
