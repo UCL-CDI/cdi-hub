@@ -1,9 +1,9 @@
 <div style="text-align: center;" align="center">
-  <img src="docs/figs/cdi-hub-banner.svg" alt="real-time ai diagnosis for nystagmus" width="600"/>
-  <h1> :robot: CDI-HUB Reference Applications </h1>
+  <img src="docs/figs/cdi-hub-banner.svg" alt="cdi-hub" width="600"/>
+  <h1> :robot: CDI-HUB: Resources, Applications, and More  </h1>
 </div>
 
-This is central repository for CDI Applications, featuring templates, resources, documentation, and more. 
+This is the `cdi-hub` repository for the UCL Centre for Digital Innovation (UCL CDI), showcasing applications, use cases, tutorials, templates, resources, documentation, and more. It is designed to support researchers in seamlessly transitioning from idea to research to production.
 
 ## Table of contents
 * [Overview](#overview)
