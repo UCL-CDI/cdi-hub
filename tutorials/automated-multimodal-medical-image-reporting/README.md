@@ -34,8 +34,8 @@ To ensure safe and effective use in clinical settings, model outputs must underg
 <details>
   <summary> Local and AWS setup </summary>
 
-* [local-setup](docs/local-setup.md)
-* [AWS-setup](docs/aws-services)
+* [local-setup](docs/)
+* [AWS-setup](../aws-services/)
 
 </details>
 
