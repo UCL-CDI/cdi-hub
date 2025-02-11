@@ -3,23 +3,19 @@
   <h1> :robot: CDI-HUB: Resources, Applications, and More  </h1>
 </div>
 
-This is the `cdi-hub` repository for the UCL Centre for Digital Innovation (UCL CDI), showcasing applications, use cases, tutorials, templates, resources, documentation, and more. It is designed to support researchers in seamlessly transitioning from idea to research to production.
+This is the `cdi-hub` repository for the UCL Centre for Digital Innovation (UCL CDI), showcasing applications, use cases, tutorials, templates, resources, documentation, and more. It is designed to support researchers in seamlessly transitioning from idea to research to production with a focus on AWS services.
 
 ## Table of contents
-* [Overview](#overview)
 * [Prerequisites](#prerequisites)
 * [Tutorials](#tutorials)
 * [Contributing](#contributing)
 * [Glossary and references](#glossary-and-references)
 
-# Overview
-This repository is a comprehensive collection of CDI applications, offering templates, tutorials, and resources tailored for CDI cohorts, with a focus on AWS services.
-
 # Prerequisites 
 Github account, AWS account, and UCL account. 
 
 # Tutorials
-Explore [tutorials](tutorials) that showcase examples of best practices in machine learning and software development, such as working with multimodal medical data to train and test large language model pipelines and more.
+Explore [tutorials](tutorials) that showcase examples of best practices in machine learning and software development using AWS services, such a workflow to setup AWS Batch, multimodal medical data to train and test large language model pipelines and more.
 
 # Contributing
 See [CONTRIBUTING](CONTRIBUTING.md)
