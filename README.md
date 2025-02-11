@@ -24,8 +24,8 @@ Explore [tutorials](tutorials) that showcase examples of best practices in machi
 # Contributing
 See [CONTRIBUTING](CONTRIBUTING.md)
 
-# Glossary and references
-See [glossary](docs/glossary.md) and [references](docs/references.md).
+# Resources
+See [resources](docs/resources.md) and [glossary](docs/glossary.md).
 
 ## :octocat: Cloning repository
 * Generate your SSH keys as suggested [here](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
