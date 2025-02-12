@@ -164,7 +164,7 @@ bash ../scripts/list-jobs.bash
 ```
 
 ## Monitoring and Troubleshooting
-* :warning: View CloudWatch Logs [:link:](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs.html)
+* :warning: View CloudWatch Logs [:link:](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs.html) with [monitoring-log-events.bash](../scripts/monitoring-log-events.bash)
 ```bash
 bash ../scripts/monitoring-log-events.bash
 ```
