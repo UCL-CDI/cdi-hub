@@ -77,7 +77,7 @@ bash ../scripts/stop_container_and_removeit.bash
 ```bash
 bash ../scripts/push_image_to_ecr.bash
 ```
-TODO: See [aws-console](?) 
+Where to see image in [aws-console](?)?
 
 
 ## AWS Infrastructure Setup
@@ -95,7 +95,7 @@ bash ../scripts/vpcs-subnets.bash
 ```
 Generates [vpcs-subnets.yaml](configs/vpcs-subnets.yaml)
 
-* Create security group for Batch jobs. Ensure you use your vpc is is in [security-group.bash](../scripts/security-group.bash)
+* Create security group for Batch jobs. Ensure you use your vpc is in [security-group.bash](../scripts/security-group.bash)
 ```bash
 bash ../scripts/security-group.bash
 ```    
@@ -107,6 +107,8 @@ bash ../scripts/create-compute-env.bash
 ```
 
 ### Create Job Queue
+
+* [create-job-queue.bash](../scripts/create-job-queue.bash)
 ```bash
 bash ../scripts/create-job-queue.bash
 ```
@@ -121,25 +123,24 @@ bash ../scripts/resolve-variables-for-template.bash
 ```bash
 bash ../scripts/register-job-definition.bash
 ```
-
-* Create the role with trust policy
-```
+* Create the role with trust policy with [iam-create-role.bash](../scripts/iam-create-role.bash) 
+```bash
 bash ../scripts/iam-create-role.bash 
 ```
-* Attach the AWS managed policy for ECS Task Execution
-```
+* Attach the AWS managed policy for ECS Task Execution with [iam-attach-role-policy.bash](../scripts/iam-attach-role-policy.bash)
+```bash
 bash ../scripts/iam-attach-role-policy.bash
 ```
-* Attach the AWS managed policy for CloudWatch Logs
-```
+* Attach the AWS managed policy for CloudWatch Logs with [iam-attach-role-policy-CloudWatch.bash](../scripts/iam-attach-role-policy-CloudWatch.bash)
+```bash
 bash ../scripts/iam-attach-role-policy-CloudWatch.bash
 ```
-* create log group
-```
+* create log group with [create-log-group.bash](../scripts/create-log-group.bash)
+```bash
 bash ../scripts/create-log-group.bash 
 ```
-* Job scriptions and updates
-```
+* Job scriptions with [describe-job-queues.bash](../scripts/describe-job-queues.bash) and updates with [update-job-queue.bash](../scripts/update-job-queue.bash)
+```bash
 bash ../scripts/describe-job-queues.bash 
 bash ../scripts/update-job-queue.bash
 ```
@@ -147,33 +148,27 @@ Check [Job queues](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu
 
 
 ## Job Management 
-### Submit a Job
+### Submit a Job with [submit-job.bash](../scripts/submit-job.bash)
 ```bash
 bash ../scripts/submit-job.bash
 ```
-### Monitor Job Status
-```bash
-# Get job status
-aws batch describe-jobs \
-    --jobs <job-id> \
-    --profile ${AWS_PROFILE} \
-    --region ${AWS_REGION}
 
-# List all jobs in queue
-aws batch list-jobs \
-    --job-queue cdi-fargate-queue \
-    --profile ${AWS_PROFILE} \
-    --region ${AWS_REGION}
-```
-## Monitoring and Troubleshooting
-### View CloudWatch Logs
+### Monitor and Describe Job Status Ids with [describe-job-status.bash](../scripts/describe-job-status.bash) generating [describe-job-id-log.yaml](configs/describe-job-id-log.yaml)
 ```bash
-aws logs get-log-events \
-    --log-group-name /aws/batch/job \
-    --log-stream-name <job-stream-name> \
-    --profile ${AWS_PROFILE} \
-    --region ${AWS_REGION}
+bash ../scripts/describe-job-status.bash
 ```
+
+### List all jobs in queue with [list-jobs.bash](../scripts/list-jobs.bash)
+```bash
+bash ../scripts/list-jobs.bash
+```
+
+## Monitoring and Troubleshooting
+* :warning: View CloudWatch Logs [:link:](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs.html)
+```bash
+bash ../scripts/monitoring-log-events.bash
+```
+
 ### Common Issues
 - Check IAM roles and permissions
 - Verify network configuration
