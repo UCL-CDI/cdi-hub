@@ -18,5 +18,3 @@ echo "Using AWS Account: $AWS_ACCOUNT_ID"
 echo "Account AWS Profile: $AWS_PROFILE"
 
 aws configure list # Verify AWS CLI configuration
-
-

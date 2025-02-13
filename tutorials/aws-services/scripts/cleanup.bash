@@ -37,4 +37,3 @@ aws ecr delete-repository \
     --force \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-

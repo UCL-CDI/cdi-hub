@@ -7,4 +7,3 @@ export AWS_REGION="eu-west-2"
 
 aws batch describe-job-queues \
     --region ${AWS_REGION}
-

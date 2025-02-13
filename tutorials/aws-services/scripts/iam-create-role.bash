@@ -14,4 +14,3 @@ PATH_TO_JSON=file://${MAINPATH}/aws-batch/configs/trust-policy.json
 aws iam create-role \
     --role-name ecsTaskExecutionRole \
     --assume-role-policy-document ${PATH_TO_JSON}
-

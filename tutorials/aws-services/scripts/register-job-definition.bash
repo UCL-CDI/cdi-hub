@@ -13,4 +13,3 @@ PATH_TO_JOB_DEFINITION=file://${MAINPATH}/aws-batch/configs/job-definition.json
 
 aws batch register-job-definition \
     --cli-input-json ${PATH_TO_JOB_DEFINITION}
-

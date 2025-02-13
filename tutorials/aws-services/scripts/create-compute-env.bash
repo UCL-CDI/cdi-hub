@@ -16,4 +16,3 @@ aws batch create-compute-environment \
     --compute-resources "type=FARGATE,maxvCpus=4, subnets=${SUBNETS_ID}, securityGroupIds=${SECURITY_GROUPID}" \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-

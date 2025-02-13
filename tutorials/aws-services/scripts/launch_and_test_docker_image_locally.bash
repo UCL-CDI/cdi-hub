@@ -3,4 +3,3 @@ docker run --name awsbatch_container -v $HOME/datasets/chest-xrays-indiana-unive
 
 # Access container shell for testing
 docker exec -it awsbatch_container bash
-

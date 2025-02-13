@@ -48,8 +48,15 @@ bash aws-login.bash ${AWS_PROFILE}
 ### Cost 
 * Elastic Container Registry
   * Pricing Storage settings https://calculator.aws/#/
-15 GB per month x 0.10 USD = 1.50 USD. Elastic Container Registry pricing (monthly): 1.50 USD
+  * Example: 15 GB per month x 0.10 USD = 1.50 USD. Elastic Container Registry pricing (monthly): 1.50 USD
 
+* Amazon EC2 Instance types [:link:](https://aws.amazon.com/ec2/instance-types/)
+  * General Purpose
+  * Compute Optimized
+  * Memory Optimized
+  * Accelerated Computing
+  * Storage Optimized
+  * HPC Optimized
 
 ## References
 * Launch an Ubuntu EC2 instance using the AWS CLI: https://documentation.ubuntu.com/aws/en/latest/aws-how-to/instances/launch-ubuntu-ec2-instance/

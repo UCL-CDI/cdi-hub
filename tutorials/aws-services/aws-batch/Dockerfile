@@ -1,6 +1,6 @@
 FROM python:slim
 
-RUN apt-get update 
+RUN apt-get update
 RUN apt-get install -y git curl python3 python3-pip
 RUN apt install -y vim
 RUN pip install --upgrade awscli

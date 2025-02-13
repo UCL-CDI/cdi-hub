@@ -12,4 +12,3 @@ aws logs get-log-events \
     --log-stream-name ${STREAM_NAME} \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-

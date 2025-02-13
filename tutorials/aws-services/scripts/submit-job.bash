@@ -11,4 +11,3 @@ aws batch submit-job \
     --job-definition cdi-fargate-job-def \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-

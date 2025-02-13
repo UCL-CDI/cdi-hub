@@ -13,4 +13,3 @@ aws batch describe-jobs \
     --jobs <job-id> \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-

@@ -3,7 +3,7 @@ services:
     image: awsbatch:latest
     container_name: awsbatch_v0.0.1
     build:
-      context: . 
+      context: .
       dockerfile: Dockerfile
       args:
         USER: ${USER}

@@ -12,4 +12,3 @@ export AWS_REGION="eu-west-2"
 aws logs create-log-group --log-group-name "/aws/batch/cdi-fargate-job" \
     --profile ${AWS_PROFILE} \
     --region ${AWS_REGION}
-
