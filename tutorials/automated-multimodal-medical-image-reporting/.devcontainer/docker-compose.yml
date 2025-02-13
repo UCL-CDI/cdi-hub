@@ -1,0 +1,14 @@
+services:
+  main_container:
+    image: ammir:latest
+    container_name: ammir_v0.0.1
+    build:
+      context: ..
+      # cache_from:
+      #   - ammir:latest
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        USER: ${USER}
+    platform: linux/x86_64
+    volumes:
+      - ${PWD}/..:/home/${USER}/workspace

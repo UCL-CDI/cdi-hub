@@ -1,0 +1,3 @@
+AWS_PROFILE: "AWSAdministratorAccess-cdi-dev"
+REPOSITORY_NAME: "cdi-hub/test-container"
+AWS_REGION: "eu-west-2"

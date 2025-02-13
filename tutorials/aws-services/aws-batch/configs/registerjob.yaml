@@ -1,0 +1,44 @@
+{
+  "containerProperties": {
+    "command": [],
+    "image": "975050006673.dkr.ecr.eu-west-2.amazonaws.com/cdi-hub/test-container",
+    "resourceRequirements": [
+      {
+        "type": "VCPU",
+        "value": "1"
+      },
+      {
+        "type": "MEMORY",
+        "value": "2048"
+      }
+    ],
+    "repositoryCredentials": {},
+    "jobRoleArn": "arn:aws:iam::975050006673:role/amir-training-job-role",
+    "secrets": [],
+    "environment": [
+      {
+        "name": "S3_BUCKET_PATH",
+        "value": "s3://amir-training-b70c6730/test-sample"
+      }
+    ],
+    "linuxParameters": {
+      "tmpfs": [],
+      "devices": []
+    },
+    "mountPoints": [],
+    "ulimits": [],
+    "logConfiguration": {
+      "options": {},
+      "secretOptions": []
+    },
+    "volumes": []
+  },
+  "platformCapabilities": [
+    "EC2"
+  ],
+  "type": "container",
+  "retryStrategy": {
+    "evaluateOnExit": []
+  },
+  "jobDefinitionName": "test-job-mx-21-jan-25",
+  "parameters": {}

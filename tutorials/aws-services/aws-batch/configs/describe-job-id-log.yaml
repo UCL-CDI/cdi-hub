@@ -1,0 +1,57 @@
+{
+    "jobs": [
+        {
+            "jobArn": "arn:aws:batch:eu-west-2:975050006673:job/c6edfa7a-792f-4f6e-b35b-dbf4ff107a1e",
+            "jobName": "batch-demo-20250212-074955",
+            "jobId": "c6edfa7a-792f-4f6e-b35b-dbf4ff107a1e",
+            "jobQueue": "arn:aws:batch:eu-west-2:975050006673:job-queue/cdi-fargate-queue",
+            "status": "RUNNABLE",
+            "attempts": [],
+            "createdAt": 1739346596594,
+            "dependsOn": [],
+            "jobDefinition": "arn:aws:batch:eu-west-2:975050006673:job-definition/cdi-fargate-job-def:3",
+            "parameters": {},
+            "container": {
+                "image": "975050006673.dkr.ecr.eu-west-2.amazonaws.com/cdi-hub/awsbatch-demo:latest",
+                "command": [],
+                "executionRoleArn": "arn:aws:iam::975050006673:role/ecsTaskExecutionRole",
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "ulimits": [],
+                "networkInterfaces": [],
+                "resourceRequirements": [
+                    {
+                        "value": "1",
+                        "type": "VCPU"
+                    },
+                    {
+                        "value": "2048",
+                        "type": "MEMORY"
+                    }
+                ],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/aws/batch/cdi-fargate-job",
+                        "awslogs-region": "eu-west-2",
+                        "awslogs-stream-prefix": "fargate"
+                    },
+                    "secretOptions": []
+                },
+                "secrets": [],
+                "networkConfiguration": {
+                    "assignPublicIp": "ENABLED"
+                },
+                "fargatePlatformConfiguration": {
+                    "platformVersion": "LATEST"
+                }
+            },
+            "tags": {},
+            "platformCapabilities": [
+                "FARGATE"
+            ],
+            "eksAttempts": []
+        }
+    ]
+}

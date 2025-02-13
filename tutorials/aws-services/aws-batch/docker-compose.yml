@@ -1,0 +1,12 @@
+services:
+  main_container:
+    image: awsbatch:latest
+    container_name: awsbatch_v0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER: ${USER}
+    platform: linux/x86_64
+    volumes:
+      - ${PWD}/..:/home/${USER}/workspace

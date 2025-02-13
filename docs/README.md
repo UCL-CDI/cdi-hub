@@ -1,5 +1,5 @@
 # Documents
 
 * [Glossary](glossary.md)
-* [References](references.md)
+* [Resources](resources.md)
 
