@@ -148,12 +148,12 @@ Check [Job queues](https://eu-west-2.console.aws.amazon.com/batch/home?region=eu
 
 
 ## Job Management 
-* Update compute environment
+
+### Update compute environment [update-compute-env.bash](../scripts/update-compute-env.bash)
 ```bash
 #before submitting job
 bash ../scripts/update-compute-env.bash
 ```
-
 
 ### Submit a Job with [submit-job.bash](../scripts/submit-job.bash)
 ```bash
