@@ -1,5 +1,5 @@
 ---
-name: "\U0001F464 Onboarding new users!"
+name: "\U0001F464 Onboarding new users to CDI-HUB!"
 about: Suggested steps to onbard new users!
 title: ''
 labels: 'onboarding'
@@ -15,6 +15,7 @@ We recommend covering the following points for your onboarding.
 Some may not be relevant, so feel free to skip them. If you have any questions, please add them to this issue or discuss them with someone on our team.
 
 * [ ] Add a title to the issue, usually: "Onboarding for <ADD_YOUR_NAME>"
+* [ ] Requesting credits (see email template [:link:](../../docs/onboarding-ulc-users-to-aws-services/README.md)).
 * [ ] Conduct a code and documentation walkthrough with a team member.
 * [ ] Familiarise yourself with the GitHub workflow and [CONTRIBUTING](https://github.com/UCL-CDI/cdi-hub/blob/main/CONTRIBUTING.md) guidelines.
 * [ ] Familiarise yourself with the [GLOSSARY](https://github.com/UCL-CDI/cdi-hub/blob/main/docs/glossary.md), [REFERENCES](https://github.com/UCL-CDI/cdi-hub/blob/main/docs/references.md), general [Infrastructure template](https://github.com/UCL-CDI/cdi-hub/tree/main/tutorials#infrastructure-overview) and consider updating it if you notice any missing terms or changes.
@@ -22,8 +23,8 @@ Some may not be relevant, so feel free to skip them. If you have any questions, 
 * [ ] Clone repo in your favorive path `git clone git@github.com:UCL-CDI/cdi-hub.git`
 * [ ] If necessary, open a [new issue](https://github.com/UCL-CDI/cdi-hub/issues/new/choose) to submit a feature request or report a bug.  
 * [ ] Create new branch: `git checkout -b ISSUENUMBER_FEATURE_BRANCH` (e.g., `git checkout -b 1-feature-branch`).  
-* [ ] [Local setup](https://github.com/UCL-CDI/cdi-hub/blob/main/tutorials/automatic-medical-image-reporting/docs/local-setup.md)
-* [ ] [Setting up AWS](https://github.com/UCL-CDI/cdi-hub/blob/main/tutorials/automatic-medical-image-reporting/docs/aws-setup.md)
+* [ ] [Access to AWS access](https://github.com/UCL-CDI/cdi-hub/tree/main/tutorials/aws-services#access-to-aws-access)
+* [ ] [Initial setup](https://github.com/UCL-CDI/cdi-hub/tree/main/tutorials/aws-services/aws-batch#initial-setup)
 * [ ] Set up the `hello-ml` example to run both locally and on the AWS service. Follow the [GitHub workflow](https://github.com/UCL-CDI/cdi-hub/blob/main/CONTRIBUTING.md) to address any suggestions or feedback.
 * [ ] Commit and push a README.md with your own recipy:   
     ```
