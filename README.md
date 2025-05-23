@@ -25,6 +25,7 @@ See [resources](docs/resources.md) and [glossary](docs/glossary.md).
 
 ## :octocat: Cloning repository
 * Generate your SSH keys as suggested [here](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+* Setup you commit signature verification as shown [here](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification#ssh-commit-signature-verification)
 * Clone the repository by typing (or copying) the following lines in a terminal
 ```
 git clone git@github.com:UCL-CDI/cdi-hub.git
