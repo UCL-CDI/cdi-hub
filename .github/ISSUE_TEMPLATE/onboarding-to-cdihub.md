@@ -15,6 +15,7 @@ We recommend covering the following points for your onboarding.
 Some may not be relevant, so feel free to skip them. If you have any questions, please add them to this issue or discuss them with someone on our team.
 
 * [ ] Add a title to the issue, usually: "Onboarding for <ADD_YOUR_NAME>"
+* [ ] Requesting credits (see email template [:link:](../../docs/onboarding-ulc-users-to-aws-services/README.md)).
 * [ ] Conduct a code and documentation walkthrough with a team member.
 * [ ] Familiarise yourself with the GitHub workflow and [CONTRIBUTING](https://github.com/UCL-CDI/cdi-hub/blob/main/CONTRIBUTING.md) guidelines.
 * [ ] Familiarise yourself with the [GLOSSARY](https://github.com/UCL-CDI/cdi-hub/blob/main/docs/glossary.md), [REFERENCES](https://github.com/UCL-CDI/cdi-hub/blob/main/docs/references.md), general [Infrastructure template](https://github.com/UCL-CDI/cdi-hub/tree/main/tutorials#infrastructure-overview) and consider updating it if you notice any missing terms or changes.

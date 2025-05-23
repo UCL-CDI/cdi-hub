@@ -13,6 +13,7 @@ Hi CDI Team
 
 Please find below details to setup AWS account
 * Your Name and Surname
+* Your AWS account number (A 12-digit number, such as 012345678901, that uniquely identifies an AWS account).
 * Research code or PTAE code. See more for PTAE code "Project, Task, Award, and Expenditure Type" on UCL intranet [here](https://www.ucl.ac.uk/finance/finance-systems/data-codes/ptae).
 * If your project could benefit from good software and data practices, please share your GitHub username. If you do not have one, please create an account and share me your username. This video might help: https://www.youtube.com/watch?v=h5cKAd94QNo.
 
