@@ -16,10 +16,21 @@ Seeting up with Instance Type `ml.g6.2xlarge` with 1 of GPUs per replica for `de
 
 ![fig](jupyter-lab.png)
 
-Terminate and delete services
+## Terminate and delete services using console 
 1. Space: cdi-hub-issue28. Delete app.
 2. User Details: default-20250605T020811. Delete User
 3. Domain: QuickSetupDomain-20250605T020811. Delete domain
+
+## Delete an Amazon SageMaker AI domain (AWS CLI)
+* Connect (click approve) to login
+```bash
+bash ../aws-services/scripts/aws-config-login.bash
+```
+* cleanup-sagemaker.bash
+```bash
+bash ../aws-services/scripts/cleanup-sagemaker.bash
+```
+
 
 
 

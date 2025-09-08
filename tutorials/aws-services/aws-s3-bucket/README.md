@@ -1,7 +1,7 @@
 # S3 Bucket 
 * Log in
 ```
-bash ../scripts/aws-login.bash 
+bash ../scripts/aws-config-login.bash 
 ```
 * Log in into your AWS access portal
 Select either `cdi-innov-dev` or `arc-playpen-collaborations` and launch AWSAdministratorAccess: 
