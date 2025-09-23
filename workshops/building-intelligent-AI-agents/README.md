@@ -188,13 +188,14 @@ Q1. You talk about the prototype-to-production chasm and how to navigate from ex
 It is recommended to consult the pricing table, which illustrates costs based on service type:
 https://aws.amazon.com/bedrock/agentcore/pricing
 
-![fig](building-intelligent-AI-agents/assets/pricing-table-23-sep-2025.png)
+![fig](assets/pricing-table-23-sep-2025.png)
 
 ## Some Feedback
 
-* I would start giving the big picture of amazing bedrock, slide 11 and 35 look great.
-* Adionanl to asking our epxerince with agents is good but it would be usuefl that you ask for the auditnece prefernce on where they are appyuing or wnat to use agents, so you undestand better the needs of the audence. 
-* Thare some missing notebooks in the innovation sandbox compared to the ones in the repository.
+* We felt the pace was quite fast, so some parts of the initial instructions were not straightforward to follow. The great thing is that the documentation is complete, so the material can be followed up afterwards. Also, the online feedback felt a bit impersonal when cameras were off, but we understand the challenges of delivering this workshop online and encouraging engagement.
+* I would start by giving the big picture of the amazing Bedrock—slides 11 and 35 look great.
+* In addition to asking about our experience with agents, it would be useful to ask the audience about their preferences—where they are applying or want to use agents—so you can better understand their needs.
+* Some notebooks are missing in the Innovation Sandbox compared to the ones available in sagemaker.
 ```
 ├── 03-agent-core-identity
 │   ├── 05-Outbound_Auth_3lo
