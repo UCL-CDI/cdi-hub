@@ -2,7 +2,7 @@
 
 ## Instructors
 * Dr Anil Kumar Giri, AWS Solutions Architect | ISV & GenAI Solutions
-* Russell Bennett
+* Russell Bennett, AWS Solutions Architect
 
 ## Introduction
 Learn to build and orchestrate AI agents using AWS technologies in this hands-on workshop. Master the Model Context Protocol and Strands SDK while creating various agent types - from simple calculators to complex multi-agent systems with memory, knowledge bases, and dynamic tool creation capabilities. This workshop guides developers through seven comprehensive modules, each focusing on different aspects of AI agent development. You'll start with basic MCP implementations and progress to sophisticated multi-agent architectures.
@@ -30,8 +30,9 @@ Learn to build and orchestrate AI agents using AWS technologies in this hands-on
 13:00 – 13:50 - Workshop continued (Diving Deep into Bedrock AgentCore)  
 13:50 - 14:00 - Close, Summary, Survey  
 
+## Resources
 
-## Notes
+* [Slides](assets/AgentCoreUCL.pdf)
 
 * The material is publicly available at:
 https://catalog.workshops.aws/agentcore-deep-dive/en-US
@@ -39,6 +40,8 @@ https://catalog.workshops.aws/agentcore-deep-dive/en-US
 * The code and documentation are available at:
 https://github.com/awslabs/amazon-bedrock-agentcore-samples/tree/1cf3c80c6d4e9cd1c65153aaca195053e8624b07/01-tutorials
 
+
+## Notes
 
 * The section on the prototype-to-production ‘chasm’ illustrates the journey from initial excitement and potential (POC) to delivering meaningful business value, while highlighting key challenges in performance, stability, security, and governance.
 ![fig](assets/AgentCoreUCL-slide11.png)
@@ -48,6 +51,8 @@ https://github.com/awslabs/amazon-bedrock-agentcore-samples/tree/1cf3c80c6d4e9cd
 ![fig](assets/AgentCoreUCL-slide35.png)
 
 
+* AWS Workshop Studio. Join hands-on events and workshops
+![fig](assets/aws-workshop-studio.png)
 
 * The workshop runs on SageMaker Studio for 12 hours and is only available for these models.
 ```
@@ -66,6 +71,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 
 
 * [01-agent-core-runtime](bedrock-agent-core-service/01-agent-core-runtime/)
+> Runtime: Amazon Bedrock AgentCore Runtime is a secure, serverless runtime capability that empowers organizations to deploy and scale both AI agents and tools, regardless of framework, protocol, or model choice—enabling rapid prototyping, seamless scaling, and accelerated time to market. 
 ```
 ├── 01-hosting-agent
 │   ├── 01-strands-with-bedrock-model
@@ -88,6 +94,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 * [02-agent-core-gateway](bedrock-agent-core-service/02-agent-core-gateway)
+> Gateway: AI agents need tools to perform real-world tasks—from searching databases to sending messages. Amazon Bedrock AgentCore Gateway automatically converts APIs, Lambda functions, and existing services into MCP-compatible tools so developers can quickly make these essential capabilities available to agents without managing integrations.
 ```
 ├── 01-transform-lambda-into-mcp-tools
 ├── 02-transform-apis-into-mcp-tools
@@ -102,6 +109,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 * [03-agent-core-identity](bedrock-agent-core-service/03-agent-core-identity/)
+> Memory: Amazon Bedrock AgentCore Memory makes it easy for developer to build rich, personalized agent experiences with fully-manged memory infrastructure and the ability to customize memory for your needs.
 ```
 ├── 03-Inbound Auth example
 ├── 04-Outbound Auth example
@@ -110,6 +118,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 * [04-agent-core-memory](bedrock-agent-core-service/04-agent-core-memory/)
+> Identity: Amazon Bedrock AgentCore Identity provides seamless agent identity and access management across AWS services and third-party applications such as Slack and Zoom while supporting any standard identity providers such as Okta, Entra, and Amazon Cognito.
 ```
 ├── 01-short-term-memory
 │   ├── 01-single-agent
@@ -131,6 +140,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 * [05-agent-core-browser-tool](bedrock-agent-core-service/05-agent-core-browser-tool/)
+> Amazon Bedrock AgentCore Browser Tool is an enterprise-grade capability that enables AI agents to navigate websites, complete multi-step forms, and perform complex web-based tasks with human-like precision within a fully managed, secure sandbox environment with low latency.
 ```
 ├── 01-browser-with-NovaAct
 ├── 02-browser-with-browserUse
@@ -148,6 +158,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 * [06-agent-core-code-interpreter](bedrock-agent-core-service/06-agent-core-code-interpreter/)
+>  Code Interpreter tool enables AI agents to write and execute code securely, enhancing their accuracy and expanding their ability to solve complex end-to-end tasks.
 ```
 ├── 01-file-operations-using-code-interpreter
 ├── 02-code-execution-with-agent-using-code-interpreter
@@ -156,6 +167,7 @@ The actual content of the workhshop is based in [this public repository](https:/
 ```
 
 *  [07-agent-core-observability](bedrock-agent-core-service/07-agent-core-observability/)
+> Observability: Observability helps developers trace, debug, and monitor agent performance through unified operational dashboards. With support for OpenTelemetry compatible telemetry and detailed visualizations of each step of the agent workflow, Amazon Bedrock AgentCore Observability enables developers to easily gain visibility into agent behavior and maintain quality standards at scale.
 ```
 ├── 01-Agentcore-runtime-hosted
 ├── 02-Agent-not-hosted-on-runtime
@@ -173,13 +185,10 @@ The actual content of the workhshop is based in [this public repository](https:/
 
 Q1. You talk about the prototype-to-production chasm and how to navigate from excitement and potential to meaningful business value, but I am missing a way to cost and monitor running end-to-end workshops. Are there any services or resources that can help with that?
 
+It is recommended to consult the pricing table, which illustrates costs based on service type:
+https://aws.amazon.com/bedrock/agentcore/pricing
 
-* Pricing Table
-Charger based ont service type:
-
-https://aws.amazon.com/bedrock/agentcore/pricing/
-
-
+![fig](building-intelligent-AI-agents/assets/pricing-table-23-sep-2025.png)
 
 ## Some Feedback
 
@@ -229,10 +238,7 @@ thinc 8.3.6 requires numpy<3.0.0,>=2.0.0, but you have numpy 1.26.4 which is inc
 ```
 
 
-
-
 ## References
-
 
 * strandsagents
     * Build production-ready, multi-agent AI systems in a few lines of code
@@ -244,5 +250,4 @@ thinc 8.3.6 requires numpy<3.0.0,>=2.0.0, but you have numpy 1.26.4 which is inc
     * https://github.com/awslabs/amazon-bedrock-agentcore-samples
 
 
-
-https://aws.amazon.com/marketplace
+* https://aws.amazon.com/marketplace
