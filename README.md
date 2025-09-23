@@ -8,6 +8,7 @@ This is the `cdi-hub` repository for the UCL Centre for Digital Innovation (UCL 
 ## Table of contents
 * [Prerequisites](#prerequisites)
 * [Tutorials](#tutorials)
+* [Workshops](#workshops)
 * [Contributing](#contributing)
 * [Glossary and references](#glossary-and-references)
 
@@ -15,7 +16,10 @@ This is the `cdi-hub` repository for the UCL Centre for Digital Innovation (UCL 
 Github account, AWS account, and UCL account. 
 
 # Tutorials
-Explore [tutorials](tutorials) that showcase examples of best practices in machine learning and software development using AWS services, such a workflow to setup AWS Batch, multimodal medical data to train and test large language model pipelines and more.
+Explore the [tutorials](tutorials), which showcase examples of best practices in machine learning and software development using AWS services, such as workflows to set up AWS Batch, handling multimodal medical data to train and test large language model pipelines, and more."
+
+# Workshops
+Explore the [workshops](workshops), which include detailed material provided by AWS colleagues, along with notes and resources to help spark your imagination about what can be accomplished with AWS services.
 
 # Contributing
 See [CONTRIBUTING](CONTRIBUTING.md)
