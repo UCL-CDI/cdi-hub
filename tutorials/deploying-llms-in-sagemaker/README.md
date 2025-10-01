@@ -1,7 +1,25 @@
 # Deploying and fine-tuning models on AWS
 
+> A running document to showcase how to deploy and fine-tune DeepSeek R1 models with Hugging Face on AWS.
+[ref](https://huggingface.co/blog/deepseek-r1-aws); [ref](https://aws.amazon.com/blogs/machine-learning/deploy-deepseek-r1-distilled-models-on-amazon-sagemaker-using-a-large-model-inference-container/)
+
+
+## Editing notebook locally
+* Install jupyter with uv
+```
+uv run --with jupyter jupyter lab
+```
+* Edit notebook in the browser
+
+
+## Open AWS access portal
+
+1. Go to https://ucl-cloud.awsapps.com/start#/
+2. Select account and click AWSAdministratorAccess
+
+
 ## Managing Amazon SageMaker AI
-1. Amazon SageMaker AI, creating QuickSetupDomain-20250605T020811
+1. Amazon SageMaker AI, creating QuickSetupDomain-${DATE_AND_TIME}
 > Perfect for single user domains and first time users looking to get started with SageMaker.
 Let Amazon SageMaker configure your account, and set up permissions for your SageMaker Domain.
 * New IAM role with AmazonSageMakerFullAccess policy
@@ -12,7 +30,15 @@ Let Amazon SageMaker configure your account, and set up permissions for your Sag
 * IAM Authentication
 2. User profiles. Launch Studio
 3. Jupiter Lab
-Seeting up with Instance Type `ml.g6.2xlarge` with 1 of GPUs per replica for `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B	`
+    * Seeting up with Instance Type `ml.g6.2xlarge` with 1 of GPUs per replica for `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B	`
+    * `ml.g5.12xlarge` from https://aws.amazon.com/blogs/machine-learning/deploy-deepseek-r1-distilled-models-on-amazon-sagemaker-using-a-large-model-inference-container/
+
+
+
+## Create notebook instance
+
+![fig](create-notebook-instance.png)
+
 
 ![fig](jupyter-lab.png)
 
@@ -32,6 +58,10 @@ bash ../aws-services/scripts/cleanup-sagemaker.bash
 ```
 
 
+## Clean and delete resources
+
+* Open the Amazon S3 console at https://console.aws.amazon.com/s3/, and then delete the bucket that you created for storing model artifacts and the training dataset.
+* Open the Amazon CloudWatch console at https://console.aws.amazon.com/cloudwatch/, and then delete all of the log groups that have names starting with /aws/sagemaker/.
 
 
 ## License
@@ -53,6 +83,7 @@ If AWS Service Quotas is not available, contact AWS support to request an increa
 
 
 ## References
-https://huggingface.co/blog/deepseek-r1-aws
-https://github.com/aws/sagemaker-huggingface-inference-toolkit
-https://github.com/aws/sagemaker-python-sdk
+* https://huggingface.co/blog/deepseek-r1-aws
+* https://github.com/aws/sagemaker-huggingface-inference-toolkit
+* https://github.com/aws/sagemaker-python-sdk
+* https://repost.aws/knowledge-center/sagemaker-resource-utilization
