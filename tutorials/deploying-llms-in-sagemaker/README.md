@@ -1,7 +1,5 @@
-# Deploying and fine-tuning models on AWS
-
-> A running document to showcase how to deploy and fine-tune DeepSeek R1 models with Hugging Face on AWS.
-[ref](https://huggingface.co/blog/deepseek-r1-aws); [ref](https://aws.amazon.com/blogs/machine-learning/deploy-deepseek-r1-distilled-models-on-amazon-sagemaker-using-a-large-model-inference-container/)
+# Deploying llm-based models on AWS 
+> A running document to showcase how to deploy llm-based models with Hugging Face on AWS.
 
 
 ## Domains, user profile and space management 
@@ -127,6 +125,12 @@ DeepSeek-R1-Distill-Llama-8B is derived from Llama3.1-8B-Base and is originally 
 DeepSeek-R1-Distill-Llama-70B is derived from Llama3.3-70B-Instruct and is originally licensed under llama3.3 license .
 
 
+
+## Create notebook instance
+
+![fig](create-notebook-instance.png)
+
+
 ## Known Issues
 * Quota
 ```
@@ -137,15 +141,12 @@ If AWS Service Quotas is not available, contact AWS support to request an increa
 ```
 
 
-## Create notebook instance
-
-![fig](create-notebook-instance.png)
-
-
-
 ## References
 * https://huggingface.co/blog/deepseek-r1-aws
 * https://github.com/aws/sagemaker-huggingface-inference-toolkit
 * https://github.com/aws/sagemaker-python-sdk
+* deepseek-r1-aws: https://huggingface.co/blog/deepseek-r1-aws
+* deploy-deepseek-r1-distilled-models: https://aws.amazon.com/blogs/machine-learning/deploy-deepseek-r1-distilled-models-on-amazon-sagemaker-using-a-large-model-inference-container/
 * https://repost.aws/knowledge-center/sagemaker-resource-utilization
 * https://aws.amazon.com/blogs/machine-learning/deploy-deepseek-r1-distilled-models-on-amazon-sagemaker-using-a-large-model-inference-container/
+* SageMaker AI domain quotas and limits: https://docs.aws.amazon.com/whitepapers/latest/sagemaker-studio-admin-best-practices/multiple-domains-and-shared-spaces.html
